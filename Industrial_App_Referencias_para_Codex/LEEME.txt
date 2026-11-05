@@ -1,0 +1,3 @@
+Extrae el contenido de este ZIP en C:\Users\herre\OneDrive\Documentos\10mo\denise.
+Despues abre Codex en esa carpeta y pega el contenido de Prompt_Codex_Industrial_App_MVP.txt.
+Los archivos en referencias/ son fuentes del proyecto; sha_ejemplo_BITS.py es SOLO una referencia tecnica y no contiene el caso PYDI.

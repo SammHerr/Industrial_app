@@ -1,0 +1,60 @@
+ACTÚA COMO: Desarrollador principal Python/Streamlit e ingeniero industrial especializado en Systematic Handling Analysis (S.H.A.).
+
+MISIÓN
+Construye y ejecuta la primera versión funcional (MVP) de "Industrial App - Simulador SHA para planta de avena con soya". Trabaja directamente en Windows, en:
+C:\Users\herre\OneDrive\Documentos\10mo\denise
+Repositorio remoto: https://github.com/SammHerr/Industrial_app.git
+
+AUTONOMÍA Y LÍMITES
+Tienes autorización para inspeccionar archivos, instalar Python/Git y dependencias necesarias, crear entorno virtual, editar y crear archivos del proyecto, ejecutar servidores y pruebas, reparar errores y hacer commits LOCALES. Procede sin pedirme autorizaciones para tareas rutinarias. No borres archivos ajenos, no uses operaciones destructivas de Git, no almacenes secretos, no hagas merge, no abras PR y no hagas push al remoto en esta fase. Si detectas trabajo previo, consérvalo y reporta su estado. Resuelve bloqueos técnicos razonables de manera autónoma; solo solicita intervención ante credenciales, permisos de sistema irreversibles o un problema irresoluble.
+
+FUENTES Y PRECEDENCIA
+1. Fuente principal: archivo "Proyecto PYDI (1).docx", si está accesible en esta carpeta o una subcarpeta `referencias/`. Si falta, NO bloquees el desarrollo: utiliza los datos de referencia incluidos abajo y documenta que la transcripción queda pendiente de cotejo con el Word. No inventes que has leído el Word si no está disponible localmente.
+2. Archivo `sha.py` de ejemplo, si existe localmente: examínalo SOLO como referencia de controles y estilo de Streamlit. Está hecho para Kits BITS, CNC, SMT, ESD y AMR y NO corresponde al proyecto. NO copies esos datos, estaciones, equipos, moneda o KPIs. Conserva el concepto de `st.tabs`, `st.data_editor` y exportación, pero adapta íntegramente el dominio.
+3. La imagen de requerimientos comprende los puntos 1 a 35 de un proyecto SHA. Son el ALCANCE FUTURO. Esta iteración implementará un subconjunto funcional para no crear una aplicación grande sin pruebas.
+
+PREPARACIÓN DEL ENTORNO
+- Comprueba directorio actual, archivos existentes, disponibilidad de Git y Python. El repositorio remoto aparece inicialmente vacío, con rama nominal `main`; compruébalo y NO presupongas un historial existente.
+- Si la carpeta no es aún un repo local, clona el remoto allí cuando esté vacía, o enlaza `origin` e inicializa Git con seguridad si ya hay archivos locales; nunca sobrescribas ni elimines contenido existente. Si el repo tiene HEAD vacío, crea el primer commit local de la base sin intentar PR.
+- Usa una versión estable de Python >=3.12 compatible con las bibliotecas instaladas. Instálala si realmente falta. Crea entorno virtual FUERA de OneDrive, preferentemente en `%LOCALAPPDATA%\venvs\industrial_app`, para no sincronizar miles de dependencias. Instala con pip las librerías de `requirements.txt` y `requirements-dev.txt`.
+- Paquetes propuestos: streamlit, pandas, plotly, openpyxl; para pruebas pytest y ruff. `io` es biblioteca estándar: NO instalar con pip.
+- Utiliza `width="stretch"` en st.dataframe y st.data_editor. Usa raw strings para LaTeX.
+
+DISEÑO DEL MVP (6 PESTAÑAS)
+1. RESUMEN: nombre del caso, proceso por lotes, métricas iniciales, procedencia de cifras y aviso de que es simulador académico. Incluye costo fijo mensual y precio unitario solo como datos de contexto, sin construir todavía módulo financiero completo.
+2. ELEMENTOS Y 7 R: tabla de materiales y registro elemental (código, nombre, tipo, unidad y consumo por lote); verificación de las 7 R con estado 'Cumple / Parcial / No cumple / No evaluado', notas editables y resumen visible. No marcar automáticamente que todo cumple.
+3. ANÁLISIS P-Q: tabla editable de masa mensual por material, porcentajes y acumulados calculados, gráfico de barras con curva acumulada y gráfico de producción mensual por presentación (250 g y 500 g). Los porcentajes se recalculan al modificar cantidades.
+4. TRABAJO DE TRANSPORTE (T.W.): selector 'Método base / Método propuesto', rutas editables con origen-destino, intensidad kg/día, viajes/día, distancia m; calcula T.W. por ruta = intensidad * distancia (kg·m/día), distancia con carga = viajes * distancia, tiempo = viajes * (2 * distancia / velocidad + tiempo de carga/descarga), permitiendo editar velocidad y tiempo de carga. Incluye totales y comparación de ambos métodos. NO confundas kg·m con metros recorridos.
+5. GRÁFICAS SHA: diagrama Pareto de tiempos por causa, dispersión distancia-intensidad (X = distancia m, Y = intensidad kg/día) para rutas de ambos métodos y barras comparativas de indicadores base vs propuesto. Los gráficos deben usar los datos editados, no una copia estática.
+6. EXPORTACIÓN: descarga un archivo XLSX con hojas de parámetros, materiales, 7R, P-Q, rutas y cálculos, resumen y Pareto. Genera el Excel desde el estado ACTUAL de la aplicación con io.BytesIO y pd.ExcelWriter(engine='openpyxl'). Nunca exportes tablas obsoletas ni resultados de un ejemplo BITS.
+
+DATOS INICIALES DEL PROYECTO PYDI
+- Producto: polvo de avena con soya para bebida refrescante.
+- Insumos por lote reportados: avena 3.5 kg; soya 6.0 kg; cacahuate 2.0 kg; canela 0.25 kg. Sus costos reportados por lote: $87.50, $240.00, $90.00 y $7.50; costo de bolsas $30.00; costo total reportado $455.00. IMPORTANTE: 3.5+6+2+0.25 = 11.75 kg, distinto del lote declarado de 10 kg. Muestra advertencia de inconsistencia, conserva cada dato y NO ajustes la formulación automáticamente.
+- Producción presentada: lote declarado de 10 kg = 32 bolsas de 250 g + 4 bolsas de 500 g; método propuesto 7.75 lotes/día, 26 días/mes. Los 7.75 corresponden al escenario propuesto, no al tiempo secuencial del método base.
+- Contexto financiero: costos fijos $190,300/mes; costo variable unitario de bolsa 250 g $11.38; precio de venta bolsa 250 g $35.00. No extrapoles el mismo costo/precio a 500 g sin información.
+- P-Q mensual reportado (kg/mes): soya 1209.0, avena 705.3, cacahuate 403.0, cajas de cartón 143.1, canela 50.4, bolsas de empaque 38.7, etiquetas 3.6. Hay diferencias de redondeo en la suma publicada: recalcula totales, conserva los insumos y avisa si no coincide exactamente con el total textual.
+- Producto terminado mensual reportado: 6448 bolsas de 250 g y 806 bolsas de 500 g.
+- 7 R según documento: Material correcto = Parcial; Cantidad correcta = No cumple; Condición correcta = Parcial; Lugar correcto = No cumple; Tiempo correcto = Parcial; Posición/secuencia correctas = Parcial; Costo correcto = Parcial. Son diagnósticos documentales, no estados actualizados de una planta operando.
+
+RUTAS REALES DEL WORD (FORMATO id; intensidad_kg_dia; viajes_dia; distancia_m)
+Base: B1;91.06;1.82;6.5 | B2;91.06;1.82;5.5 | B3;91.06;31;31 | B4;91.06;31;23 | B5;81.38;38.75;7.5 | B6;77.50;15.50;6.5 | B7;7.13;7.75;15.5 | B8;84.49;12.92;8.5 | B9;84.49;12.92;5.5
+Propuesto: P1;91.06;1.82;6.5 | P2;91.06;0.67;5.5 | P3;91.06;2;8.5 | P4;91.06;7.75;8.5 | P5;81.38;7.75;7.5 | P6;77.50;7.75;6.5 | P7;7.13;1;15.5 | P8;84.49;2;8.5 | P9;84.49;2;5.5
+Etiquetas base B1..B9: descarga camión a recepción; recepción a almacén MP; almacén MP a báscula de empaque; báscula empaque a tostado; tostado a molino; molino a empaque; insumos de empaque; empaque a almacén PT; almacén PT a embarque.
+Etiquetas propuesta P1..P9: descarga camión a recepción; recepción a almacén MP; almacén MP a preparación; preparación a tostado; tostado a molino; molino a empaque; insumos empaque en kit diario; empaque a almacén PT; almacén PT a embarque.
+Parámetros del documento: velocidad v = 0.9 m/s; tiempo de carga/descarga = 30 s base y 45 s propuesto. Referencias esperadas aproximadas: TW base 8417.6 kg·m/día, TW propuesto 5048.3; distancia con carga base 2388.2 m/día, propuesto 250.4; tiempo manejo base 165.2 min/día, propuesto 33.8. Permite tolerancia razonable debido a valores de rutas redondeados.
+- Pareto reportado (causa, minutos/día): dosificación sin báscula en preparación 93.0; charolas calientes una por una 30.1; recipientes de polvo no estandarizados 11.5; PT caja por caja 10.5; surtido embarque caja por caja 9.1; insumos empaque por lote 8.3; recepción sin carga unitaria 2.6. Recalcula porcentaje y acumulado: la suma de valores redondeados puede diferir ligeramente del total textual.
+
+CALIDAD, ARQUITECTURA Y VALIDACIONES
+- No un solo archivo gigante. Entrada `sha.py`; paquete simple `pydi/datos.py`, `pydi/calculos.py`, `pydi/graficas.py`; `tests/test_calculos.py`; `requirements.txt`, `requirements-dev.txt`, `.gitignore`, `README.md`. Sin base de datos ni autenticación por ahora: usar session_state y datasets iniciales separados de fórmulas.
+- Validación de entradas: valores numéricos no negativos, divisiones entre cero, DataFrame vacío, filas incompletas, duplicados de ID, datos faltantes; mostrar error visible y no publicar resultados inválidos. No ocultes errores sustituyendo silenciosamente por 0.
+- `pydi/calculos.py` debe ser independiente de Streamlit y probado con pytest. Incluir tests para TW por ruta y totales, distancia, tiempo, P-Q %, acumulados, 7R, generación de contenido XLSX y valores límite; testear reactividad de exportación con datos modificados.
+- Las prioridades de cercanía de Muther (A,E,I,O,U,X) son una evaluación cualitativa; NO llamar 'Muther oficial' a reglas arbitrarias de porcentaje acumulado TW. Este MVP puede reservar una futura matriz de cercanía documentada.
+- Diferenciar 'dato reportado en Word', 'cálculo derivado' y 'dato hipotético editable'. Documentar supuestos y redondeos. No inventar resultados de los puntos 17-35 no desarrollados.
+- Interfaz completamente en español, diseño limpio, navegable, gráficas legibles y responsive. Sin referencia a BITS, CNC, SMT, AMR, ESD, calibración inercial o datos simulados ajenos.
+- README: propósito, estructura, requisitos, instalación exacta en PowerShell, activación de venv, ejecución `python -m streamlit run sha.py`, pruebas, alcance actual, próximos módulos de la lista de 35 puntos, fuentes y discrepancias del documento.
+- Ejecuta `python -m compileall`, `pytest -q`, `ruff check .` y una prueba de arranque de Streamlit para confirmar que no hay import errors. Si una prueba falla, corrígela y ejecútala de nuevo.
+- Realiza commits locales en una rama `feature/pydi-mvp-streamlit` si es viable; si Git no tiene primer commit, configura el estado sin perder archivos. No push, no PR y no merge.
+- Al finalizar, entrega: archivos modificados, árbol final, paquetes/versión Python, comandos para levantar aplicación, resultado de pruebas, capturas si puedes, advertencias de datos y hash del commit local. No termines en una descripción o pseudocódigo: quiero la aplicación instalada, construida, probada y funcionando localmente.
+
+EJECUTA AHORA EL TRABAJO COMPLETO, sin dejar pendientes artificiales ni pedirme confirmación para operaciones rutinarias.
