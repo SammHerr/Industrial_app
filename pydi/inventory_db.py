@@ -2,6 +2,7 @@
 
 import os
 import sqlite3
+import sys
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
@@ -14,8 +15,11 @@ def database_path() -> Path:
     override = os.environ.get("INDUSTRIAL_APP_DB_PATH")
     if override:
         return Path(override).expanduser().resolve()
-    local = os.environ.get("LOCALAPPDATA")
-    root = Path(local) if local else Path.home() / "AppData" / "Local"
+    if sys.platform == "darwin":
+        root = Path.home() / "Library" / "Application Support"
+    else:
+        local = os.environ.get("LOCALAPPDATA")
+        root = Path(local) if local else Path.home() / "AppData" / "Local"
     return root / "IndustrialApp" / "data" / "industrial_app.db"
 
 

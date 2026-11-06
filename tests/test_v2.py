@@ -2,7 +2,9 @@ from io import BytesIO
 
 import pandas as pd
 import pytest
+from PIL import Image, ImageOps
 
+from pydi import v2_barcode
 from pydi.calculations.location_costs import break_even, location_scores
 from pydi.calculations.schedule import cpm
 from pydi.calculations.storage_finance import (
@@ -21,7 +23,7 @@ from pydi.calculations.transport_quality import (
     routes,
     seven_r,
 )
-from pydi.v2_barcode import code128_svg
+from pydi.v2_barcode import code128_preview_png, code128_svg
 from pydi.v2_charts import layout_chart, pq_chart, tw_chart
 from pydi.v2_model import (
     TABLE_COLUMNS,
@@ -228,3 +230,29 @@ def test_code128_layout_and_pqrst_export():
     assert snap.tables["PQRST consolidado"].set_index("elemento").loc["Q", "valor"] == "201.500 lotes/mes"
     workbook = pd.ExcelFile(BytesIO(export_xlsx(case, snap)))
     assert "C PQRST consolidado" in workbook.sheet_names
+
+
+def test_code128_demo_preview_is_png_with_exact_identifier(monkeypatch):
+    row = make_example_case().tables["identificaciones"].iloc[0]
+    label = f"{row['codigo']}|{row['lote']}|{row['ubicacion']}"
+    assert label == "ASO-PT-016|PYDI-DEMO|APT-A"
+    original = v2_barcode.Code128
+    encoded = []
+
+    def capture(value, *, writer):
+        encoded.append(value)
+        return original(value, writer=writer)
+
+    monkeypatch.setattr(v2_barcode, "Code128", capture)
+    png = code128_preview_png(label)
+    assert png.startswith(b"\x89PNG\r\n\x1a\n")
+    with Image.open(BytesIO(png)) as image:
+        assert image.format == "PNG" and image.width > 700
+        image.verify()
+    with Image.open(BytesIO(png)) as image:
+        assert ImageOps.invert(image.crop((0, image.height - 40, image.width, image.height)).convert("RGB")).getbbox()
+    assert encoded == [label]
+    assert code128_preview_png(label + "-OTRO") != png
+    assert b"<svg" in code128_svg(label)
+    with pytest.raises(ValueError):
+        code128_preview_png(" ")
