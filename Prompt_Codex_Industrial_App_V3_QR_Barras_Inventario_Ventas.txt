@@ -1,0 +1,100 @@
+PROMPT MAESTRO PARA CODEX — INDUSTRIAL APP V3
+Identificación QR / Code 128, inventario trazable, PDF de etiquetas y registro de ventas
+
+ROL
+Actúa como desarrollador principal de Python/Streamlit, arquitecto de software y especialista en trazabilidad e inventarios industriales. Debes IMPLEMENTAR, PROBAR y documentar Industrial App V3, no solo proponer un plan. Trabaja directamente con los archivos locales existentes.
+
+ENTORNO Y RUTA
+Directorio: C:\Users\herre\OneDrive\Documentos\10mo\denise
+Repositorio remoto: https://github.com/SammHerr/Industrial_app.git
+Rama reportada de V2: feature/pydi-sha-completo-v2
+Commit de V2 reportado: c5d7902aeae0aab2677288330cadf37a0d38075b
+Aplicación actual: sha.py, paquete pydi/, tests/, README.md, docs/, requisitos.
+
+PERMISOS Y CONTROL GIT
+Tienes autorización para examinar código, modificarlo, instalar dependencias, crear/ejecutar migraciones no destructivas, agregar archivos, correr pruebas y servidor, y hacer commits LOCALES. No hagas push, no abras PR y no hagas merge. Preserva todos los módulos V2 y el archivo sha_mvp.py. Antes de comenzar: inspecciona el estado real del repositorio, reporta cualquier cambio local existente, protege los cambios ajenos y crea una nueva rama feature/pydi-v3-trazabilidad-qr-inventario desde el HEAD correcto de V2. No sobrescribas cambios de usuario. Nunca publiques bases de datos reales, PDFs con registros de ventas ni datos sensibles en Git.
+
+REGLA DE ORO DE FUNCIONALIDAD
+Los códigos deben corresponder a registros persistentes reales. Descargar o volver a imprimir un PDF jamás debe generar códigos nuevos; reiniciar Streamlit jamás debe borrar inventario o ventas; dos intentos de venta del mismo código jamás deben registrar dos ventas. El inventario activo no debe mostrar artículos vendidos, pero el historial y la base de datos deben conservarlos.
+
+FUENTE DE DATOS Y ALCANCE
+Usa la información y catálogos de Proyecto PYDI y los datos que V2 ya codificó. El producto es polvo de avena con soya; el Word documenta presentaciones de 250 g y 500 g, NO confirma una tercera presentación. Precarga 250 g y 500 g con procedencia 'Word PYDI'. Permite crear y administrar una tercera presentación (y otras posteriores) mediante formulario editable de gramos, nombre, código de presentación, precio MXN y estado. No inventes tamaño ni precio de una tercera. Mantén las diferencias y alertas numéricas conocidas de V2. No precargues como existencias físicas vendibles los datos simulados de capacidad/producción del Word: crear inventario de ejemplo debe ser una acción explícita y confirmada, separada de los botones globales de V2.
+
+TIPOS Y CATEGORÍAS
+El selector de registro debe ofrecer exactamente tres categorías principales:
+1) Producto terminado: bolsas por presentación (250 g, 500 g y presentación configurable), cada bolsa física tiene un ID/código propio; agrupable por lote. La presentación/SKU agrupa, pero NO identifica individualmente una bolsa.
+2) Materia prima: avena, soya, cacahuate, canela, y otras que se agreguen; una etiqueta identifica un LOTE/CONTENEDOR de materia prima, con cantidad y unidad (kg, g), fecha de recepción y ubicación, no cada gramo; permitir entradas/consumos y agotamiento con movimientos auditables.
+3) Maquinaria: cada activo físico tiene identificación individual, código de equipo, descripción, modelo/serie opcionales, ubicación, mantenimiento y estado. Distinguir equipos de la propuesta aún no adquiridos de activos realmente dados de alta. No asignar códigos de activo físico a un equipo que solo aparece como propuesta sin confirmación.
+Si los catálogos del proyecto incluyen empaques y equipos auxiliares, permitir extensiones consistentes sin alterar las tres categorías principales.
+
+IDENTIFICADORES Y SIMBOLOGÍAS
+- Implementa QR y barras lineales Code 128 para cada identificador, usando EXACTAMENTE el mismo ID estable y normalizable. El QR debe codificar una cadena interna legible por el lector y funcional sin internet, NO un enlace de localhost ni datos privados. Por ejemplo: ID interno opaco 'PT-<aleatorio>', 'MP-<aleatorio>', 'MQ-<aleatorio>'. El lector QR y el de barras deben poder resolverlo al mismo registro mediante normalización estricta.
+- Utiliza IDs opacos generados con fuente criptográficamente aleatoria y con al menos 80 bits efectivos (p.ej., 20 caracteres hexadecimales de uuid4) + prefijo de categoría. Validar unicidad con índice UNIQUE de SQLite y reintentar en una colisión; nunca generar a partir del contador de filas solamente.
+- No afirmar que los códigos sean GTIN/EAN-13/GS1 oficiales: Code 128 es para trazabilidad INTERNA. No crear códigos comerciales que aparenten estar asignados por GS1.
+- Evita barras que dependan de caracteres no soportados, y permite imprimir el ID al pie de forma legible. No guardar una imagen como único registro: guardar siempre el identificador y metadatos de negocio.
+
+BASE DE DATOS PERSISTENTE
+Implementa SQLite con sqlite3 de stdlib o SQLAlchemy si está plenamente justificado. La fuente de verdad debe ser la BASE DE DATOS, no st.session_state ni tablas estáticas. Como el proyecto está dentro de OneDrive, POR DEFECTO ubica el archivo SQLite fuera de carpetas sincronizadas, preferentemente %LOCALAPPDATA%\IndustrialApp\data\industrial_app.db (Windows). Admite variable de entorno INDUSTRIAL_APP_DB_PATH para cambiarlo y un directorio temporal en pruebas. Muestra al usuario la ubicación efectiva del archivo en Configuración. Añade a .gitignore DB, archivos WAL/SHM, backups, exportaciones y PDFs emitidos. Implementa inicialización idempotente, PRAGMA foreign_keys=ON, transacciones seguras, indices/UNIQUE, y migraciones versionadas no destructivas. Si existe alguna DB previa, inspecciónala y haz backup antes de migrarla; no borres registros. No requieras un servidor de BD externo para esta fase.
+
+Modelo normalizado sugerido (ajusta nombres a arquitectura V2 con justificación):
+- catalog_items: id, category, name, sku/model, unit, default_price_cents nullable, enabled, metadata, created_at
+- presentations: id, product_catalog_id, label, grams, sku, price_cents nullable, source, enabled; UNIQUE(sku), UNIQUE(combinación relevante)
+- traceable_items: id, code UNIQUE, catalog_item_id, presentation_id nullable, lot_code nullable, quantity_initial, quantity_available, measure_unit, status, location, supplier optional, acquired_at/created_at, optional expiry, version, acquisition_status
+- stock_movements: immutable append-only transactions id, traceable_item_id, movement_type, quantity, unit, reason, timestamp, reference, optional correlation_id UNIQUE
+- sales: id, operation_id UNIQUE (idempotency), created_at_utc, total_cents, optional notes, status
+- sale_lines: id, sale_id, traceable_item_id UNIQUE for an individual physical bag, unit_price_cents; foreign keys and verification
+- audit_events: id, entity, entity_id, action, before/after JSON or summary, created_at_utc
+- migration table / PRAGMA user_version.
+Prefer centavos enteros para MXN, Decimal (o unidad mínima exacta) para cantidades, nunca sumas monetarias con float. Timestamps en UTC; presentación local legible. No almacenar datos personales del cliente que no sean necesarios. Para materias primas no mezclar unidades kg y g sin conversión explícita; registrar saldos en una unidad base consistente.
+
+TRANSACCIONES CRÍTICAS
+1) Alta de código y de inventario: una sola transacción genera el ID único y registra el artículo. Generación masiva de producto por lote con N etiquetas = N bolsas físicas y N IDs diferentes. El número N debe ser entero positivo y estar limitado a un rango razonable con confirmación para lotes grandes. Si falla el PDF después de la transacción, permitir reimprimir los códigos existentes sin generar un lote nuevo.
+2) Reimpresión: buscar por código, lote, filtros/categoría y descargar etiquetas existentes; nunca insertar filas nuevas.
+3) Venta: entrada por lector USB tipo teclado o escritura/pegado manual; resolver el QR y Code128 al mismo ID. Al consultar mostrar nombre, presentación, precio, lote, estado y disponibilidad. Solo se venden unidades de producto terminado con estado DISPONIBLE y precio definido. Validar carrito sin duplicados y confirmar una única transacción DB: venta + líneas + cambio de estado a VENDIDO + movimientos de salida + auditoría. Usar condición transaccional (UPDATE ... WHERE status='DISPONIBLE', rowcount=1 y restricción UNIQUE sale_lines(traceable_item_id)) para evitar doble venta en dos sesiones. Venta repetida o código inexistente debe mostrar error claro y NO descontar inventario de nuevo. En caso de fallo de cualquier línea, rollback íntegro de la venta. Prevenir doble clic/reintentos mediante operation_id persistido; devolver resultado de la misma operación en vez de duplicarlo.
+4) Inventario activo: filtrar solo DISPONIBLE / materia prima con saldo positivo / maquinaria activa, con pestañas por categoría. Los productos VENDIDOS desaparecen de existencia disponible, pero permanecen visibles en historial/consulta con estado VENDIDO, fecha, referencia de venta.
+5) Anulación de venta: opcional si es segura y probada; exigir razón, generar evento de reverso e impedir reversos duplicados; nunca borrar historial. Si no se implementa, documentar explícitamente que se requiere corrección manual administrativa y no ofrecer botón engañoso.
+6) Materia prima: permitir consumir una cantidad válida <= saldo en la misma transacción, con kardex, bloqueando saldos negativos. Maquinaria: solo cambios de estado auditados (ACTIVO, EN_MANTENIMIENTO, FUERA_DE_SERVICIO); no incluirla como venta de producto por defecto.
+
+INTERFAZ STREAMLIT
+Agrega al V2 una sección clara 'Códigos e inventario' (una pestaña/grupo adicional o navegación lateral) SIN romper ni renombrar arbitrariamente las 14 agrupaciones/39 apartados. Submódulos:
+A. Generar: selector Producto terminado/Materia prima/Maquinaria, selección de catálogo/presentación, formulario de campos relevantes, lote, cantidad, ubicación, precio cuando aplique; confirmación de registro; vista previa individual QR y Code 128; número de etiquetas según criterio por tipo; mostrar identificadores creados.
+B. PDF de etiquetas: elegir códigos recién creados o existentes; descargar PDF de etiquetas ya registradas, ordenadas por categoría, producto/presentación, lote y código; A4 imprimible con márgenes, cortes razonables y paginación; cada etiqueta contiene nombre, presentación/tipo, lote si aplica, código human-readable, QR y barras Code128, y opcional fecha. No generar códigos nuevos al pulsar descargar. Diseñar para impresión real, alto contraste, código legible sin recortes y soporte de tildes en descripciones. Evitar imprimir información sensible del cliente o direcciones locales.
+C. Consultar: búsqueda por texto o código escaneado, filtros por categoría/estado/lote/presentación, detalle del registro, trazabilidad cronológica y reimpresión.
+D. Inventario actual: KPIs y tabla de unidades/stock disponibles por presentación, lotes de materia prima con saldos y maquinaria activa. Separar por categoría y permitir exportar CSV/XLSX del estado ACTUAL.
+E. Punto de venta: búsqueda o lector, carrito, validación de precios, confirmar venta, folio, total, hora, resultado. Resumen visual de venta y existencia actualizada. No registrar cobros electrónicos ni facturas fiscales; este MVP es un REGISTRO de venta interno.
+F. Historial: folios y líneas de ventas, movimientos de inventario, auditoría, filtros por fecha y código.
+G. Configuración/catálogos: dar de alta presentaciones nuevas y materias/equipos, visualizar DB path, hacer copia de seguridad no destructiva bajo demanda.
+
+REGLA IMPORTANTE V2
+Los botones globales 'Cargar datos de ejemplo' y 'Limpiar todos los datos' de V2 deben seguir afectando SOLAMENTE el estado de formularios/cálculos/simulación; NUNCA deben borrar, modificar o volver a insertar inventario, productos vendidos, ventas, identificadores ni registros persistentes de la base de datos. En la sección de inventario el botón de limpiar limpia solo filtros y formularios, no la base. No iniciar por defecto con existencias ficticias. Añade una acción de carga de datos DEMOSTRATIVOS independiente, claramente etiquetada, con confirmación y ejecución única/idempotente si realmente se necesita para pruebas manuales.
+
+LIBRERÍAS PROPUESTAS
+Reutiliza Streamlit/Pandas/Plotly/OpenPyXL de V2. Instala y fija rangos compatibles de qrcode[pil], python-barcode[images] y reportlab para QR/Code 128/PDF (o justifica alternativas mantenidas). Usa io.BytesIO para descargas. sqlite3 está incluido con Python; no incluirlo en pip. Valida que los componentes sean compatibles con la versión local de Python/Streamlit. Es posible usar ReportLab para todos los gráficos/vectorizados, si simplifica. La instalación debe hacerse en .venv ya existente, no en otra ruta arbitraria.
+
+ESTRUCTURA Y CALIDAD
+Mantén sha.py como punto de entrada. Añade módulos separables bajo pydi/ como inventory_db.py, inventory_service.py, code_generator.py, labels_pdf.py, sales_service.py y la sección UI. No concentres toda la lógica en sha.py. Emplea función de servicio con pruebas para cada acción y evita SQL directo incrustado en UI. Usa validaciones de entrada: cantidades positivas, fechas lógicas, costo no negativo, longitudes, código no vacío, caracteres seguros, SKU/presentación únicos. Maneja errores de concurrencia con mensaje comprensible y rollback. Limita generación masiva para no bloquear Streamlit ni crear PDFs excesivos; páginas A4 con paginación. Los reportes V2 siguen funcionando.
+
+PRUEBAS OBLIGATORIAS
+- Regresión: mantener las 24 pruebas de V2 aprobadas (ajustar solo lo necesario, sin borrar aserciones).
+- Alta: códigos únicos en al menos cientos/miles de altas de prueba y validación UNIQUE en DB, tanto para productos como MP/maquinaria.
+- Productos: precargas Word 250g/500g; tercera presentación se puede crear/configurar sin valor inventado.
+- Persistencia: cerrar/reabrir conexión o simular reinicio Streamlit conserva registros.
+- PDF: comienza con %PDF, tiene páginas y etiquetas correspondientes, las imágenes QR y barras tienen ID idéntico al almacenado; reimpresión sin inserciones adicionales.
+- Ventas: registrar una venta correcta; la unidad deja de aparecer en activo; queda VENDIDO en historial; precio y total correctos; segundo intento del mismo código falla sin segunda venta.
+- Atomicidad: venta multiartículo con un código no disponible revierte toda la transacción; idempotencia en reintentos; pruebas de concurrencia/dos conexiones cuando sea posible.
+- Materia prima: consumo parcial y agotamiento; nunca saldo negativo; kardex consistente.
+- Maquinaria: alta y cambio de estado auditados, no aparece como vendible.
+- Botones globales: limpieza y carga demo NO cambian recuentos ni estados de DB ni recrean vendidos.
+- Exportaciones: CSV/XLSX del inventario actual y PDF imprimible; vacíos sin crash; datos con acentos.
+- Ruff, compileall y pytest; incorporar pruebas unitarias y de integración con DB temporal en tmp_path, sin tocar datos reales.
+- Prueba de humo UI real en navegador de al menos generación, consulta, venta, cambio de inventario y reimpresión PDF. Si no hay navegador disponible, especificar limitación sin afirmar ejecución.
+
+DOCUMENTACIÓN Y ENTREGA
+Actualiza README.md con instalación en Windows, comando ` .\.venv\Scripts\python.exe -m streamlit run sha.py`, acceso http://localhost:8501, dónde está DB, cómo respaldarla, cómo usar lector USB, generar etiquetas, reimprimir, vender, consultar vendidos, ajustar catálogos y riesgos de OneDrive. Especifica que Code 128 es trazabilidad interna y no GS1/EAN de comercio; venta no es CFDI. Documenta migraciones, esquema SQL, estados, reglas de idempotencia y límites de SQLite local; para despliegue multiusuario futuro proponer PostgreSQL con autenticación y roles, sin implementarlo innecesariamente en esta fase.
+
+FINALIZACIÓN
+1. Inspecciona V2, diseña e implementa el cambio completo, sin tareas placeholder.
+2. Instala dependencias en .venv, inicia la app y verifica la UI.
+3. Corre toda la suite; corrige errores.
+4. Realiza UNO O VARIOS COMMITS LOCALES claramente descriptivos en feature/pydi-v3-trazabilidad-qr-inventario, sin push, sin PR y sin merge. Deja working tree limpio, salvo archivos ignorados de datos locales.
+5. Responde con: resumen implementado, archivos modificados, ruta real de DB, migraciones/backup, pruebas aprobadas/pendientes, detalles de la tercera presentación, comando exacto para ejecutar, branch, SHA de commit y notas de seguridad. No afirmes éxito sin verificar.

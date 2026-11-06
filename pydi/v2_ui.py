@@ -29,13 +29,15 @@ from pydi.v2_model import (
 )
 from pydi.v2_reports import SHEET_NAMES, export_xlsx
 from pydi.v2_results import alerts_frame, compute_case
+from pydi.v3_ui import clear_transient_state
+from pydi.v3_ui import render as render_inventory
 
 GROUPS = (
     "Inicio y calidad de datos", "1–2 Producto y proceso", "3 Localización",
     "4 Costos y equilibrio", "5–8 Elementos, 7R y P-Q", "9–11 Cargas y estiba",
     "12–13 Transporte y plano", "14–17 Mejora y causas", "18–20 Calidad y equipos",
     "21–28 Almacén y logística", "29–33 Plan SHA", "34–37 Economía y selección",
-    "38–39 Cronograma y auditoría", "Exportación integral",
+    "38–39 Cronograma y auditoría", "Exportación integral", "Códigos e inventario V3",
 )
 
 SECTIONS = {
@@ -85,6 +87,7 @@ def _clear_case() -> None:
     st.session_state.case = make_empty_case()
     st.session_state.revision += 1
     st.session_state.scenario_choice = "Nuevo estudio"
+    clear_transient_state()
 
 
 def _undo_clear() -> None:
@@ -558,13 +561,13 @@ def _export() -> None:
 
 
 def run() -> None:
-    st.set_page_config(page_title="Industrial App V2 · PYDI SHA", page_icon="🏭", layout="wide")
+    st.set_page_config(page_title="Industrial App V3 · PYDI SHA", page_icon="🏭", layout="wide")
     if "case" not in st.session_state:
         st.session_state.case = make_example_case()
         st.session_state.revision = 0
         st.session_state.scenario_choice = "Documento (valores reportados)"
-    st.title("Industrial App V2 · Estudio SHA de avena con soya")
-    st.caption("Caso PYDI · 39 apartados · cálculos trazables · escenario editable")
+    st.title("Industrial App V3 · Estudio SHA de avena con soya")
+    st.caption("Caso PYDI · 39 apartados V2 + trazabilidad persistente V3")
     with st.sidebar:
         st.header("Control global")
         st.button("Cargar datos de ejemplo (Proyecto PYDI)", on_click=_load_example, width="stretch")
@@ -577,9 +580,9 @@ def run() -> None:
             key="scenario_choice", on_change=_scenario_change,
         )
         group = st.selectbox("Grupo de apartados", GROUPS)
-        st.caption("Estado temporal de sesión. Use XLSX/CSV para guardar resultados.")
+        st.caption("Los botones globales afectan solo formularios V2; inventario y ventas permanecen en SQLite.")
     handlers = (
         _home, _production, _location, _costs, _elements_pq, _loads, _transport,
-        _improvement, _quality, _warehouse, _sha_plan, _economics, _schedule_audit, _export,
+        _improvement, _quality, _warehouse, _sha_plan, _economics, _schedule_audit, _export, render_inventory,
     )
     handlers[GROUPS.index(group)]()

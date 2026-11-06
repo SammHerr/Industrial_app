@@ -7,3 +7,10 @@ venv/
 *.xlsx
 .streamlit/secrets.toml
 Paquete_Codex_Industrial_App_V2_SHA/referencias_v2/
+*.db
+*.db-wal
+*.db-shm
+*.bak.db
+*.pdf
+output/
+exports/

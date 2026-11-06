@@ -1,6 +1,6 @@
-# Industrial App V2 para estudio SHA de planta de avena con soya
+# Industrial App V3 para estudio SHA y trazabilidad PYDI
 
-Aplicación académica Streamlit para recorrer los **39 apartados** del proyecto PYDI/SHA en 14 grupos de navegación. Combina datos editables del Word, cálculos trazables, avisos de inconsistencias, gráficas dinámicas y exportación XLSX/CSV. No sustituye una medición de planta, cotización, verificación estructural o certificación sanitaria.
+Aplicación Streamlit con los **39 apartados V2** del proyecto PYDI/SHA, más el módulo V3 **Códigos e inventario**. V2 conserva sus cálculos, gráficas y exportaciones. V3 registra unidades físicas y lotes reales en SQLite, produce QR/Code 128 y PDF A4, consulta trazabilidad y registra ventas internas.
 
 ## Inicio en Windows PowerShell
 
@@ -12,7 +12,19 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m streamlit run sha.py
 ```
 
-Abra `http://localhost:8501`. Si `.venv` ya existe, omita su creación y repita la instalación cuando cambien los requisitos. No hace falta activar el entorno. Para el MVP anterior, ejecute `python -m streamlit run sha_mvp.py` desde el entorno correspondiente.
+Abra `http://localhost:8501`. Si `.venv` ya existe, omita su creación y repita la instalación cuando cambien los requisitos. No hace falta activar el entorno. Para el MVP anterior, ejecute `.\.venv\Scripts\python.exe -m streamlit run sha_mvp.py`.
+
+## Datos persistentes V3
+
+La base predeterminada es `%LOCALAPPDATA%\IndustrialApp\data\industrial_app.db` (en este equipo, `C:\Users\herre\AppData\Local\IndustrialApp\data\industrial_app.db`). Está fuera de OneDrive. Para elegir otra ruta, configure `INDUSTRIAL_APP_DB_PATH` antes de iniciar Streamlit. La pestaña **Configuración/catálogos** muestra la ruta efectiva y crea un respaldo SQLite bajo demanda. La primera inicialización crea el esquema y los catálogos; no crea existencias vendibles. Antes de migrar una base existente se genera una copia `.bak.db` en el mismo directorio. Los archivos `.db`, WAL/SHM, respaldos, PDF y exportaciones están ignorados por Git.
+
+En **Generar**, confirme el alta física de una de las tres categorías: producto terminado (cada bolsa tiene ID), materia prima (cada lote/contenedor tiene saldo en gramos) o maquinaria adquirida (cada activo tiene ID). El catálogo PYDI incluye bolsas de 250 g y 500 g; solo la de 250 g tiene precio documental de $35 MXN. Cree una tercera presentación con nombre, gramos, SKU y precio propios en Configuración. No se presupone su tamaño ni precio. Los equipos propuestos aparecen solo en el catálogo hasta que se confirme adquisición física.
+
+Los lectores USB tipo teclado introducen el ID en **Consultar** o **Punto de venta**; también puede pegarlo manualmente. QR y Code 128 contienen el mismo ID opaco `PT-`, `MP-` o `MQ-`. Code 128 es **trazabilidad interna**, no un GTIN, EAN o código GS1 asignado. El PDF A4 ordena hasta 200 etiquetas existentes por categoría, producto, lote y código; la reimpresión no crea registros. Vender requiere una bolsa DISPONIBLE con precio. La venta guarda precio en centavos, folio, líneas, salida de stock y auditoría en una transacción. Una bolsa vendida sale del inventario activo y sigue en Consulta e Historial. Este registro de venta **no cobra, factura ni emite CFDI**.
+
+Los botones globales V2 de cargar ejemplo y limpiar solo alteran formularios y filtros de sesión; nunca borran ni recrean códigos, inventario o ventas. El respaldo de Configuración copia la base sin borrar la original. Para restaurarlo, cierre la app y siga un procedimiento administrativo de recuperación de SQLite; no se ofrece sustitución automática ni anulación de ventas desde la interfaz.
+
+SQLite local es adecuado para uso en una máquina o concurrencia ligera. Mantenga la base fuera de carpetas sincronizadas y controle quién puede acceder al archivo. Para un despliegue multiusuario con cuentas, permisos y mayor concurrencia, migre a PostgreSQL con autenticación y roles; esta versión no implementa ese servidor.
 
 ## Uso
 
@@ -25,8 +37,14 @@ Abra `http://localhost:8501`. Si `.venv` ya existe, omita su creación y repita 
 ## Organización
 
 ```text
-sha.py                         Entrada V2
+sha.py                         Entrada V3; conserva grupos V2
 sha_mvp.py                     MVP anterior conservado
+pydi/inventory_db.py           SQLite, catálogo y migración v1
+pydi/inventory_service.py      Altas, consumos, consultas y exportación
+pydi/sales_service.py          Ventas atómicas e idempotentes
+pydi/code_generator.py         IDs, QR y Code 128
+pydi/labels_pdf.py             Etiquetas A4 desde registros existentes
+pydi/v3_ui.py                  Interfaz persistente V3
 pydi/v2_model.py               Escenario canónico, semilla y escenario vacío
 pydi/data/word_tables.json     Celdas fuente seleccionadas del Word canónico
 pydi/calculations/             Funciones puras y validaciones
@@ -36,7 +54,7 @@ pydi/v2_reports.py             XLSX integral
 pydi/v2_ui.py                  Interfaz de 14 grupos
 pydi/datos.py, calculos.py...  MVP conservado
 scripts/                       Inspección y extracción reproducible del Word
-tests/                         Pruebas V2 y de regresión MVP
+tests/                         Pruebas V3, V2 y de regresión MVP
 docs/                          Inventario, matriz de trazabilidad y validación
 ```
 
@@ -58,4 +76,4 @@ Los apartados 8, 21–30, 32–36 y parte de 38 son formularios o complementos p
 .\.venv\Scripts\ruff.exe check .
 ```
 
-La aplicación también se comprobó en navegador: edición de lotes/día, recalculado mensual, limpieza y recarga, navegación de los 14 grupos y exportación disponible. Los resultados de la última validación están en [docs/VALIDACION_V2.md](docs/VALIDACION_V2.md).
+La validación V3 y sus límites están en [docs/VALIDACION_V3.md](docs/VALIDACION_V3.md). El esquema y las reglas transaccionales están en [docs/ARQUITECTURA_V3.md](docs/ARQUITECTURA_V3.md). La comprobación V2 anterior permanece en [docs/VALIDACION_V2.md](docs/VALIDACION_V2.md).
