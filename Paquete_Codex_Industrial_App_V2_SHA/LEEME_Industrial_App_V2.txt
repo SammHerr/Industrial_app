@@ -1,0 +1,16 @@
+INDUSTRIAL APP V2 — INSTRUCCIONES RÁPIDAS
+
+1) Cierra Streamlit en la terminal VS Code con Ctrl+C (o déjalo en otra terminal y reinícialo al final).
+2) Descomprime este ZIP dentro de:
+   C:\Users\herre\OneDrive\Documentos\10mo\denise
+   Deben quedar los archivos PROMPT...txt y MAPA...md en la raíz del proyecto, y el Word dentro de referencias_v2\.
+3) Abre la carpeta del proyecto en VS Code y usa Codex en modo con acceso a los archivos y terminal.
+4) Pega el siguiente mensaje:
+
+   Trabaja en C:\Users\herre\OneDrive\Documentos\10mo\denise. Lee INTEGRAMENTE los archivos Prompt_Codex_Industrial_App_V2_SHA_Completo.txt y Mapa_Formulas_Cobertura_PYDI_V2.md, así como el documento referencias_v2\Proyecto PYDI (1)(1).docx. Sigue TODAS las instrucciones del prompt maestro y ejecuta implementación, instalaciones, pruebas, validación, documentación y commits LOCALES. Conserva el MVP y sus pruebas. No hagas push, PR ni merge. Entrégame el resultado real con rama, commit y pasos de inicio; no te limites a presentar un plan.
+
+5) Al terminar, desde PowerShell en la carpeta del proyecto:
+   .\.venv\Scripts\python.exe -m streamlit run sha.py
+   Abre http://localhost:8501
+
+NOTA: El archivo Word proporciona varias cifras declaradas contradictorias, y no todas las secciones tienen fórmulas o datos. El software debe señalarlas y distinguir datos reales del Word frente a ejemplos hipotéticos o fórmulas complementarias.

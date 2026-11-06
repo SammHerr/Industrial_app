@@ -6,3 +6,4 @@ __pycache__/
 venv/
 *.xlsx
 .streamlit/secrets.toml
+Paquete_Codex_Industrial_App_V2_SHA/referencias_v2/

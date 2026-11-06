@@ -1,0 +1,170 @@
+PROMPT MAESTRO PARA CODEX — INDUSTRIAL APP V2 / SHA COMPLETO / PROYECTO PYDI
+Fecha de referencia: 2026-11-05
+
+ROL
+Actúa como ingeniero principal de software (Python/Streamlit), ingeniero industrial experto en planeación y diseño de instalaciones y revisor de calidad de modelos cuantitativos. Debes IMPLEMENTAR, VALIDAR, PROBAR y DEJAR EJECUTABLE una ampliación integral del MVP existente, sin sustituirlo por otro proyecto.
+
+CONTEXTO Y UBICACIONES
+- Proyecto Windows: C:\Users\herre\OneDrive\Documentos\10mo\denise
+- Archivo de entrada: sha.py, paquete pydi/, tests/, requirements.txt, requirements-dev.txt y README.md.
+- Repositorio remoto: https://github.com/SammHerr/Industrial_app.git
+- Rama local reportada al cierre anterior: feature/pydi-mvp-streamlit; último commit reportado db795e4e6689d17db99dc6ed5fe51689e0f5bb88. VERIFÍCALOS con git; no asumas que siguen iguales.
+- Word canónico: “Proyecto PYDI (1)(1).docx”, o el archivo equivalente “Proyecto PYDI*.docx” en las carpetas de referencias. Búscalo de forma recursiva en la raíz antes de pedir información; usa python-docx para extraer párrafos, tablas y ecuaciones OMML. Una copia nueva del Word deberá ponerse en una subcarpeta de referencias si la existente no es la versión actual.
+- Hay imágenes adjuntas del índice con los puntos 4–39; usa la tabla de contenido REAL del Word para asignar la numeración. El proyecto industrial trata de polvo de avena con soya (materias primas: avena, soya, cacahuate, canela), NO de kits BITS. El viejo sha.py de BITS es referencia de interfaz, jamás fuente de datos.
+- Hay un segundo archivo de apoyo llamado “Mapa_Formulas_Cobertura_PYDI_V2.md” que debes consultar junto con el Word, si está presente en esta carpeta.
+
+AUTORIZACIÓN OPERATIVA Y LÍMITES
+Tienes autorización para explorar la carpeta del proyecto, instalar todas las dependencias de desarrollo necesarias, editar/crear archivos, lanzar el servidor local, hacer validaciones, capturas de prueba y COMMITS LOCALES. No esperes autorizaciones para tareas rutinarias. NO hagas push, NO abras PR, NO hagas merge, NO borres trabajo ajeno ni sustituyas datos originales de forma irreversible. Si hay cambios ajenos sin confirmar, consérvalos y adapta el flujo. No uses secretos ni requieras permisos de administrador salvo necesidad demostrada. No publiques ni subas el Word automáticamente.
+
+OBJETIVO FUNCIONAL
+Pasar del MVP de seis módulos a una aplicación web industrial completa que permita ejecutar un estudio PYDI/SHA real del principio al fin, con DATOS EDITABLES, CÁLCULOS REALES, GRÁFICAS QUE SE ACTUALIZAN, FUENTE DE CADA RESULTADO, COMPARATIVA BASE VS PROPUESTA, ADVERTENCIAS DE INCONSISTENCIAS, EXPORTACIÓN COMPLETA y posibilidad de empezar desde cero. Debe incluir TODOS los puntos 1 a 39 que aparecen en el índice del Word; las secciones conceptuales se implementan como registros, matrices/checklists y visualizaciones, no como cálculos falsos. Si el Word tiene secciones únicamente con título, crea una funcionalidad útil pero clasifícala como “método complementario propuesto”, nunca “cálculo encontrado en Word”.
+
+REQUISITO CRÍTICO A: DOS BOTONES GLOBALES Y FUNCIONALES
+En barra lateral o cabecera, siempre visibles:
+  [Cargar datos de ejemplo (Proyecto PYDI)]
+  [Limpiar todos los datos / Empezar desde cero]
+1. CARGAR EJEMPLO reconstruye el estado completo de la aplicación desde un catálogo versionado de datos PYDI: todos los campos editables, tablas, rutas base/propuesta, causas Pareto, 7R, P-Q, localización, costos, cargas, 5S, alternativas, cronograma, auditoría y los registros propuestos. Debe restaurar los originales y NO mezclar valores modificados por el usuario. Para los CAMPOS QUE NO TRAEN VALOR EN EL WORD, sí permite cargar un ejemplo hipotético expresamente rotulado [M] “VALOR ILUSTRATIVO / NO PROCEDE DEL WORD” (incluidos costos faltantes, fechas de auditoría de prueba, datos de muelles y parámetros financieros), para demostrar todos los controles; nunca atribuirlos al estudio PYDI ni utilizarlos para afirmar que cifras reportadas se validaron. Diferenciar visualmente “PYDI original [D/S]” y “Ejemplo ilustrativo [M]” y permitir desactivar todos los valores hipotéticos de una vez.
+2. LIMPIAR borra TODOS los valores de entrada de TODOS los módulos, incluyendo tablas editables, estado de gráficas, registros cargados, indicadores y resultados exportables. Debe abrir un escenario realmente nuevo: entradas vacías/nulas, no ceros asumidos como observaciones. Debe mostrar instrucciones de captura y estados “Sin datos” en vez de dividir por cero o mostrar resultados viejos. No precargar resultados de ejemplo al volver a interactuar.
+3. Ambos botones deben restablecer TODOS los editores de datos y controles Streamlit, no solo un DataFrame secundario. Tras limpiar y luego cargar ejemplo todo debe volver a reproducirse, sin 'StreamlitAPIException', valores fantasma, ni duplicaciones.
+4. Implementación robusta con un modelo canónico de entradas (dataclasses/TypedDict/Pydantic opcional), fábrica pure make_example_case(), make_empty_case(), deep copy, claves bien definidas para widgets y claves/versiones de editores. Usar on_click callbacks ANTES de instanciar widgets o patrón equivalente soportado; NO modificar st.session_state de un widget después de crearlo en el mismo run; controlar data_editor key y cambios. Usar st.rerun solo si se necesita. Añadir confirmación explícita para LIMPIAR si el usuario ya modificó datos, o mecanismo de deshacer/reponer ejemplo, pero sin impedir la operación.
+5. Poder cambiar entre escenarios “Documento (valores reportados)”, “Resultado calculado” y “Nuevo estudio” sin mezclar ambos. La comparación base/propuesto debe depender del mismo conjunto de inputs, no de datos fijos en otra tabla.
+6. Pruebas automatizadas específicas de la secuencia: editar -> limpiar -> comprobar TODO vacío -> cargar ejemplo -> comprobar dataset exacto -> editar un valor -> comprobar que KPI/gráfico/reporte cambian -> limpiar -> confirmar que el XLSX no reutiliza datos antiguos.
+
+REQUISITO CRÍTICO B: TRAZABILIDAD Y FIDELIDAD DEL WORD
+1. Prioridad absoluta a ecuaciones/definiciones/valores realmente escritos en “Proyecto PYDI”. Siempre indicar título/sección y página del Word de la fórmula, dato o supuesto. Producir docs/MATRIZ_TRAZABILIDAD.md (número 1–39, fórmula o método, variables, unidad, fuente/sección/página, tipo de dato, pantalla, función Python, test).
+2. Usar únicamente fórmulas explícitas del Word CUANDO EXISTAN. Si falta una ecuación pero es necesaria para hacer operativa la sección solicitada, derivarla con álgebra evidente o agregar una ecuación estándar de ingeniería industrial, claramente rotulada “COMPLEMENTO METODOLÓGICO — no aparece como fórmula explícita en PYDI”, con hipótesis, restricciones y validación dimensional. No atribuir complementos al Word. No utilizar fórmulas arbitrarias o coeficientes mágicos.
+3. Separar 4 orígenes: [D] declarado en Word, [C] calculado a partir de datos, [S] supuesto técnico expresado en Word, [M] modelo complementario que introduce la app. Los valores [M] no se presentan como hechos. Todos los resultados deben llevar unidad y origen; las aproximaciones deben indicar redondeo.
+4. Nunca corregir silenciosamente contradicciones de PYDI. Mostrar valores documentales y valores recomputados, señalar la diferencia, y ofrecer selector de criterio solo si tiene sentido (no falsear consistencia). Crear una pantalla 'Calidad de datos / Alertas' con errores, advertencias y fórmulas sin insumos suficientes.
+5. No copiar datos ni nombres ni escenarios del caso BITS (CNC, ESD, SMT, AMR, robots), ni los 15 días/semanas de ejemplo; el proyecto PYDI propone equipo manual asistido, códigos de barras, 12 semanas en cronograma y 7.75 lotes/día como escenario de diseño. Las alternativas pueden ser A/B/C pero son las del caso PYDI, no las del ejemplo BITS.
+
+REQUISITO CRÍTICO C: INVENTARIO DE MÉTODOS Y PANTALLAS (1–39)
+Conserva funciones existentes y organízalas en navegación clara por 12–14 grupos, NO 39 pestañas horizontales. Muestra el nombre/numero del Word, el estado de cobertura y navegación a detalle. Recomendación:
+- Inicio y control de escenarios.
+- 1–2 Producto, proceso, volumen y capacidad (ficha técnica, formulación, secuencia, tiempos, unidades 250/500 g, capacidad secuencial y propuesta).
+- 3 Macro/microlocalización (ponderación municipios, comparación de terrenos, costos y distancias de emergencia como datos estimados, mapa esquemático opcional si cuentas con coordenadas verificadas; no inferir rutas reales).
+- 4 Costos fijos/variables, CVU, precio y punto de equilibrio (tablas, curva ingresos-costos, valor reportado vs recalculado y capacidad vs demanda).
+- 5 Identificación y registro formal de los elementos: catálogo editable con los 42 elementos ASO-... de las páginas 28–31, categorías MP/ME/PP/PT/HE/HM/IL/IM/EP/RS, código, unidad, medida, lote, ubicación, cantidad; alta, edición, validación de duplicados, sin inventario real ficticio.
+- 6 Cumplimiento de 7R: tabla editable de las siete reglas, estado y evidencia, gráfico de cumplimiento; conservar situación PYDI (5 parciales, 2 no cumple; NO presentar siete cumple).
+- 7 P-Q: demanda/cantidades por materia prima y presentación; tabla, clasificación ABC según criterio documentado o umbrales [M] editables; curva masa mensual y porcentaje acumulado, P-Q 250/500 g.
+- 8 Fichas técnicas: ingredientes, materiales, empaques, máquinas con procedencia y campos faltantes marcados sin dato.
+- 9–11 Carga unitaria, contenedores y palets, estibado: CU-1 a CU-7, dimensiones, pesos, cajas por capa, camas, capacidad de almacenamiento y verificación de límites. Diagramas de estiba 2D; NO declarar que una geometría cabe si no pasa comprobación espacial o cargas máximas. No presentar verificación estructural o inocuidad como certificada sin pruebas.
+- 12–13 Trabajo de transporte, diagrama de hilos/plano de planta conceptual, gráfica D-I: las rutas B1–B9 y P1–P9, con IDs, intensidades, distancia, viajes, velocidad, carga/descarga; totales, ahorros y comparativas; diagramas/hilos con nodos/posiciones editables, no inventar distancias geométricas reales.
+- 14–15 Diagnóstico de siete desperdicios Lean y plan de mejoras: evidencia base, acción propuesta, estado de implantación, reducción cuantificada únicamente si es computable.
+- 16 Pareto del tiempo por causa: datos de causas reales del Word, acumulados automáticos, barras/curva, filtro de escenario y avisos de diferencias por redondeo.
+- 17 Ishikawa 6M: editable por categoría (Método, Maquinaria/equipo, Mano de obra, Materiales, Medición, Medio ambiente); visual de espina de pescado, relaciones con Pareto y efectos, sin inventar frecuencias/causalidad probada.
+- 18 Checklist 5S: 20 criterios por cuatro en cada S, valores 2/1/0 (si faltan respuestas, resultado incompleto, nunca 0 por defecto), porcentaje = puntos/40*100, historiales de auditoría del usuario.
+- 19 Diez principios CIC-MHE: 10 reglas, campo de cumplimiento/evidencia/acciones, clasificación del Word y seguimiento.
+- 20 Especificación tecnológica: catálogo de TOS-01/02, MOL-01, BAS-01/02, SEL-01 y equipos de manejo, capacidad, características, cantidades, costo solo si documentado o capturado; no asumir modelos/marcas.
+- 21 Almacenamiento dedicado: registro de ubicaciones MP, slots, ocupación, compatibilidades/alérgenos, reglas PEPS/FEFO [M donde corresponda].
+- 22 Aleatorio/abierto: localizaciones y asignación de posiciones, ocupación y rotación; simular solo cuando el usuario aporta entradas suficientes.
+- 23 Estructuras de almacenaje: capacidad nominal vs demanda, footprint/volumen, seguridad, uso de espacios y falta de cotizaciones.
+- 24 Picking: pedidos editables, cajas/bolsas, recorrido y capacidad; cálculo de unidades/cajas y distancia solo con parámetros conocidos.
+- 25 Tecnología de identificación: código Code 128, IDs, etiquetas, lotes, trazabilidad. Demostración de generar/mostrar identificador o etiqueta si librería segura instalada, no lectura física real sin dispositivo.
+- 26 Integración con sistemas de información: modelo de eventos de movimiento/inventario y registros exportables; simulación local explícita, sin afirmar WMS/ERP reales conectados.
+- 27 Área de muelles: número de posiciones/turnos/demanda de carga, disponibilidad y dimensiones, estimaciones [M] identificadas.
+- 28 Equipamiento auxiliar: catálogo, capacidad y mantenimiento; ficha dinámica.
+- 29 Estrategia de operación: roles, método base/propuesto, secuencia, cronograma de turno, reposición, PEPS/FEFO y riesgos.
+- 30 Consolidación S.H.A.: ficha formal descargable con P/Q/R/S/T, matriz de distancias-intensidades, clasificación, planes A/B/C y restricciones, todo sincronizado con escenario activo.
+- 31 Clasificación de movimientos: usar criterio del Word (<=15 m y <1000 kg/día manejo simple; >15 m y <1000 kg/día transporte simple), comparar contra la tabla; incluir movimiento de vacíos por separado del T.W. con producto.
+- 32 Asignación de métodos/equipos: matriz basada en criterios editables de capacidad, higiene, distancia, intensidad, ergonomía y costo. Justificar las sugerencias y no pretender reglas 'automáticas Muther' con umbrales arbitrarios.
+- 33 Plano de flujo de materiales: representación editable de distribución conceptual de 30x20 m, áreas REC AMP PRE TOS MOL EMP APT EMB AIE + servicios, rutas y leyenda, exportable a imagen.
+- 34 Evaluación económica: costo de ciclo de vida (8 años, si se cargan insumos por alternativa); costos iniciales, operación, mantenimiento, reinversión, residual y tasa cuando aplicable; sensibilidad, gráfico y discrepancias respecto a cifras reportadas.
+- 35 Inversión inicial, operativos y payback: fórmulas estándar [M] cuando no explicitadas, inversión incremental y ahorro NETO por año, no usar 0 años si ahorro no positivo; retorno simple y, opcionalmente, descontado con parámetros suficientes.
+- 36 Evaluación cualitativa: matriz de factores/ponderaciones/alternativas con pesos sumando 100%, criterios y escalas documentados o configurables; no copiar calificaciones BITS.
+- 37 Selección sistema: comparación A, B, C, explicación técnica y condiciones; el Word recomienda alternativa B (manual asistido estandarizado/códigos) pero el resultado DINÁMICO de nuevos datos puede ser diferente; indicar cuándo no hay insumos suficientes para recomendar.
+- 38 Cronograma: el Word reporta 12 semanas; Gantt editable, dependencias, cálculo CPM cuando se aportan duraciones/predecesoras, ruta crítica/holgura solo si la red es válida. Nada de imprimir '15 semanas' heredadas de BITS. Si las dependencias no pueden extraerse del Word/gráfico, marcar 'cronograma de referencia' y requerir al usuario completarlas antes de calcular CPM.
+- 39 Plan de auditoría continua: 10 KPIs del Word, metas, responsables, frecuencia, fórmula y acciones correctivas; edición y registro de mediciones reales, comparación con metas (sin inventar mediciones), bitácora PDCA/exportación.
+- Exportaciones: Excel con TODAS las hojas disponibles y coherentes con los datos que el usuario está viendo, además de CSV por módulo; PDF de informe si es factible con una dependencia conocida, pero nunca sacrificar datos/cálculos por formato.
+
+FÓRMULAS PRIORITARIAS EXPLICITAS EN PYDI
+A) Disponibilidad y lotes: T_disp = T_turno - T_preparación - T_comida = 30,600 - 600 - 1,800 = 28,200 segundos; Capacidad base = T_disp / T_ciclo = 28,200/10,200 = 2.7647 lotes/turno; multiplicar por kg/lote para masa. Presentar capacidad continua y lotes completos separados. Si se usa escenario de líneas escalonadas, verificar cuellos de botella y recursos; no igualar secuencial y propuesto.
+B) Macrolocalización: P_j = Σ_i (w_i × s_ij), con pesos (0.15, 0.20, 0.30, 0.20, 0.15), comparaciones Unión Juárez 54.75, Cacahoatán 70, Tapachula 86.
+C) Costo variable por bolsa = suma de costos de materia prima/empaque asignados a unidad; costo fijo mensual documentado 190,300 MXN, CVU documentado 11.38 MXN/bolsa 250 g, precio documentado 35 MXN. Q_equilibrio = CF/(P-CVU) con P > CVU; ingreso = P×Q; costo total = CF+CVU×Q [álgebra de la curva]. Mostrar unidades enteras CEIL, no truncar.
+D) P-Q masa mensual = consumo por lote × lotes/día × días/mes; porcentaje y acumulado = masa_i/masa_total×100, suma acumulativa.
+E) T.W._ruta = I(kg/día)×d(m); distancia diaria con carga = n_viajes×d; tiempo diario = n_viajes × (2×d/v + t_c), con v=0.9 m/s según el Word, t_c=30 s base /45 s propuesta [S]. Suma por rutas, unidades kg*m/día, m/día, s/día. El retorno vacío NO se agrega al trabajo con producto; sí puede mostrarse como recorrido total adicional separado.
+F) Reducción porcentual = (base - propuesto)/base×100 (derivación algebraica sencilla); para divisor 0 usar No calculable.
+G) Pareto: % = valor/total×100; % acumulado = suma de porcentajes ordenados de mayor a menor. Para el Pareto del Word la suma de causas redondeadas da 165.1 min/día frente a 165.2 reportados: conservar ambos y mostrar advertencia.
+H) 5S: porcentaje = puntos obtenidos/(20×2)×100; 20 respuestas completas y puntaje máximo 40; al estar incompleto no evaluar como 0/40.
+I) Indicadores de auditoría explícitos: exactitud inventario=correctas/contadas×100, PEPS/FEFO=lotes en orden/lotes despachados×100, manejo/lote=tiempo diario/lotes, distancia con carga=Σ viajes×distancia, merma=kg perdidos/kg procesados×100, 5S=puntos/40×100, mantenimiento=revisiones realizadas/programadas×100, ocupación=posiciones ocupadas/posiciones totales×100; además incidentes y lotes rechazados como conteos.
+J) PERT/CPM, inventario/reposición, ocupación, capacidad de muelle, ciclo de vida, VPN, payback y puntuación multicriterio: ÚNICAMENTE agregar ecuaciones estándar donde el Word no tenga fórmula completa y haya insumos; etiquetar [M] y explicar supuestos, unidad y frontera del modelo. Para VPN se necesita tasa real y flujos de caja; sin ellos mostrar 'No calculable'. Para LCC distinguir nominal de descontado y no mezclar las dos magnitudes.
+
+DATOS DOCUMENTADOS CLAVE / VALIDACIONES QUE NO PUEDES IGNORAR
+- Los cuatro ingredientes suman 3.5+6+2+0.25 = 11.75 kg por kit de lote, pero el producto se describe como un lote de 10 kg. No normalizar ingredientes para que den 10; modelar masa entrada 11.75 kg, masa de producto objetivo 10 kg, y merma/reducción con hipótesis marcada según fuente. No confundir masa de receta con producto final.
+- Receta y costo de lote del Word: avena 3.5 kg×25=87.50; soya 6 kg×40=240; cacahuate 2 kg×45=90; canela 0.25 kg×30=7.50; bolsas 30; total 455 MXN. No confundir bolsas (empaque) con kg de materia prima.
+- El Word mezcla una distribución de 32 bolsas de 250 g + 4 bolsas de 500 g por lote (8+2=10 kg), frente a otro cálculo que considera 40 bolsas de 250 g para CVU. Mantener ambos supuestos como escenarios de empaque diferenciados. El costo y precio de la bolsa de 500 g requieren insumos adicionales si no están documentados.
+- Capacidad base 2.76 lotes/turno y meta propuesta 7.75 lotes/día (el Word también menciona 7.83 teóricos por turno); distinguir objetivo, capacidad y redondeo. Mes de 26 días declarado. A 7.75×26×32 = 6,448 bolsas 250 g/mes y 7.75×26×4 = 806 bolsas 500 g/mes, 7,254 unidades totales.
+- El punto de equilibrio del Word afirma 8,055 bolsas de 250 g/mes; la operación 190,300/(35-11.38) = 8,056.7316, o 8,057 unidades si se redondea hacia arriba. NO reproducir el valor erróneo como 'recalculado'; exhibir la discrepancia con explicación. Tampoco proclamar suficiencia de capacidad con mezcla 250/500 sin el precio/costo de 500.
+- P-Q tabla fuente: soya 1,209.0; avena 705.3; cacahuate 403.0; cajas 143.1; canela 50.4; bolsas 38.7; etiquetas 3.6 (kg/mes). La suma de los números mostrados es 2,553.1, aunque la tabla declara 2,553.0; advertir diferencia por redondeo/datos.
+- TW base 8,417.6 kg*m/día, 2,388.2 m/día, 9,911.4 s/día (165.2 min), 153.48 viajes/día; propuesta 5,048.3 kg*m/día, 250.4 m/día, 2,029.6 s/día (33.8 min), 32.74 viajes/día. El Pareto de causas redondeadas suma 165.1 y no 165.2. Rutas originales B1–B9 y P1–P9 deben extraerse del Word. No extrapolar falsamente m/día a geolocalización.
+- 7R: CINCO 'Parcial' y DOS 'No cumple' en el método base según tabla, no todas cumplidas.
+- 5S: 20 criterios, escala 0,1,2; máximo 40.
+- 10 principios CIC-MHE enumerados en el Word.
+- Límites/elementos dimensionados: tarima 120×100 cm; contenedor 40×30×22 cm; caja terminada huella 40×33 cm, 24 bolsas×250 g o 12×500 g; 9 cajas/cama, 5 camas, 45 cajas/tarima propuestas, sujeto a verificación; layout conceptual nave 30×20 m.
+- Localización: Unión Juárez/Cacahoatán/Tapachula (54.75/70/86); tres terrenos $1,150,000/$12,000,000/$14,000,000; tierra 10,000 m² mencionada, revisar unidades y origen.
+- Costo de ciclo de vida reportado a 8 años: base $424,267 vs propuesta $289,135, VPN de mejora reportado $135,132 y payback 2.43 años. El Word NO muestra todas las series de flujos/desglose para reproducirlos; no fabricar inversiones ni anualidades para forzar esos resultados. Pedir datos en UI y mostrar dichos reportes como referencias, NO como cálculos verificados.
+- Propuesta recomendada en Word: alternativa B, método manual asistido con cargas estandarizadas y código de barras. No sugerir AMRs por herencia del proyecto BITS.
+- Cronograma de implementación Word: 12 SEMANAS, no 15.
+- Puntos con insuficiencia de datos (solo títulos en documento): fichas técnicas sección 8 y varios 21–30, 32–36; elaborar formularios profesionales para completar el diseño, no fingir que el Word contiene análisis numérico inexistente.
+
+REQUISITO CRÍTICO D: CÁLCULOS REALMENTE REACTIVOS
+TODAS las pantallas y exportaciones deben calcularse a partir del estado canónico. Al cambiar un input de origen se actualizan todos los derivados en cascada (por ejemplo lotes/día cambia demanda mensual, P-Q, insumos, volumen, TW si intensidades derivan de producción, etc.); si una magnitud se ingresó manualmente, identifica override y procedencia. Evita DataFrames de ejemplo duplicados en distintas pestañas que quedan desincronizados.
+- Unidades explicitas kg/lote, kg/día, kg/mes, pzas/lote, m, m/día, kg*m/día, s/día, min/día, $ MXN, $/mes, $/año, m², %.
+- Validaciones: no negativos donde no corresponda, divisores >0, pesos multicriterio total 100±tolerancia, fechas coherentes, dependencias CPM acíclicas, capacidad no excedida, inputs faltantes sin trucos, no NaN/Inf en tablas/gráficas/Excel. Redondeo solo al MOSTRAR, no en cadena de cálculo; redondeo hacia arriba en bolsas/vehículos/costales cuando se trata de unidades indivisibles y el modelo lo justifica; mostrar decimales de planificación por separado.
+- Colores y accesibilidad moderados, tooltips explicando fórmula/variables/unidades/fuente y botón para ver el desglose de cálculo. No saturar interfaz. Filtros por escenarios y descarga disponible incluso si se ha completado parcialmente (marcando campos incompletos), sin resultados inventados.
+
+ARQUITECTURA TÉCNICA
+- Mantén Python 3.12 en .venv local, Streamlit 1.67 compatible, pandas, Plotly, openpyxl. Añade pytest/ruff y, si se justifica, python-docx, networkx, reportlab, PIL; nuevas bibliotecas SOLO cuando añadan una capacidad necesaria y se documente su propósito.
+- No utilices módulos de ejemplo BITS como base de datos. Diseño separado: sha.py punto de entrada ligero; pydi/data/defaults.py o JSON seed; pydi/models.py; pydi/calculations/ (production, costs, location, transport, storage, quality, finance, schedule); pydi/validation.py; pydi/ui/; pydi/reports/; tests/. Ajusta a estructura existente en lugar de reemplazar a ciegas.
+- Trabaja con funciones puras para todas las ecuaciones. Ninguna fórmula principal dentro de if st.button como lógica irreutilizable. Calcula estados en el flujo de Streamlit siempre que sea razonable, botones solo para acciones.
+- Para tablas y editores Streamlit usar width="stretch", no use_container_width. Fórmulas LaTeX en raw strings. Usa st.data_editor con tipos homogéneos y st.column_config. Evita llenar la UI de 39 tabs.
+- Mecanismo de persistencia adicional opcional: Descargar escenario JSON e importar JSON validado para continuar después, pero nunca asumir que st.session_state sobrevive al cerrar/reabrir el navegador; sin JSON, avisar que es sesión temporal.
+- No borres .git, no versiones .venv, cachés, archivos de salida o datos locales temporales, no modifiques el Word fuente. Actualiza README con instalación, comando de ejecución real, cómo cargar/limpiar, cómo cambiar escenarios, notas de no validación técnica, fuentes y limitaciones.
+
+GRÁFICAS OBLIGATORIAS (USAR DATOS ACTUALES, NO CAPTURAS ESTÁTICAS)
+1. P-Q materias primas con acumulado y clases.
+2. Producción por presentación 250/500 g y capacidad secuencial/propuesta.
+3. Curva de punto de equilibrio (ingresos, CF+CVU×Q, cruce real).
+4. Pareto de tiempo de manejo por causas; ajuste dinámico de etiquetas/%.
+5. TW por ruta (B/P), barras comparadas y reducciones.
+6. Dispersión D-I con líneas de umbral del criterio documentado y etiquetas de rutas.
+7. Diagrama de hilos/flujo conceptual con zonas/posiciones editables.
+8. Diagrama de estiba de pallets/cajas con cantidades y escala aproximada, etiquetado como conceptual si no exacto.
+9. Ishikawa editable 6M.
+10. Gráfica 5S por criterio/área si hay auditorías ingresadas.
+11. Costos de ciclo de vida y evaluación multicriterio de alternativas CON datos suficientes.
+12. Gantt 12 semanas y ruta crítica SOLO si se ha definido una red válida.
+13. Indicadores auditoría con metas y semáforo únicamente para mediciones proporcionadas por el usuario.
+
+EXPORTACIÓN
+- Excel generado con pd.ExcelWriter(BytesIO, engine="openpyxl"), 12+ hojas por dominio o las necesarias: origen/alertas, producción, localización, costos, elementos, 7R, P-Q, fichas, cargas/estiba, TW base, TW propuesto, D-I, Pareto/Ishikawa, 5S, equipos, almacenes, planes SHA, LCC, multicriterio, cronograma, auditoría. Conserva encabezados, unidades, tipos, fuente y fórmulas/derivaciones; jamás unir DataFrames por índice arbitrariamente; validación de integridad y consistencia del XLSX. Si faltan entradas, valores vacíos y estado "pendiente", no rellenar como ejemplo oculto.
+- Si generas PDF, debe diferenciar tablas, cálculos, supuestos, alertas y escenarios, sin usar datos de otras sesiones.
+
+PLAN DE EJECUCIÓN DE CODEX (REALIZA TODO, NO SOLO PLAN)
+1. Muestra git status/branch/log y árbol existente; inspecciona README, sha.py, pydi, tests y Word; verifica dónde están los datos originales. Detecta errores actuales antes de modificar. No sobrescribas trabajo no confirmado.
+2. Crea rama local feature/pydi-sha-completo-v2 desde estado real del MVP (si ya existe, úsala de forma segura). Haz una copia lógica de control por commit local o rama preservada cuando corresponda.
+3. Genera docs/INVENTARIO_FORMULAS_PYDI.md y docs/MATRIZ_TRAZABILIDAD.md, anota cobertura de cada punto 1–39 y detecta apartados sin fórmula/datos. Verifica ecuaciones OMML y tablas del Word, no te bases solo en texto OCR o imágenes.
+4. Diseña modelos, seed de ejemplo y seed vacío; integra los DOS botones globales; prueba sus efectos entre todos los módulos.
+5. Implementa todos los grupos funcionales hasta cubrir 1–39; prioriza resultados numéricos de PYDI (capacidad, costos, Qe, P-Q, TW, D-I, Pareto, 5S, económico) y luego pantallas documentales/operativas. Si la labor es extensa, trabaja por commits locales incrementales completos, NO abandones la tarea solo tras entregar un plan. No dejes botones simulados ni pantallas con 'TODO'.
+6. Construye gráficos dinámicos, PDF/Excel si posible, matriz SHA y escenario nuevo. Añade avisos de calidad de datos.
+7. Instala dependencias dentro de .venv (si ya está creado). Para Windows PowerShell: .\.venv\Scripts\python.exe -m pip install -r requirements.txt y -r requirements-dev.txt. Si Python falta, diagnostica antes de instalar. Evita instalar en entorno global salvo necesidad.
+8. Ejecuta tests unitarios y de integración (ver debajo), python -m compileall, Ruff y smoke test de Streamlit. Prueba navegador si dispones de esa capacidad. La validación debe registrar comandos y sus resultados reales.
+9. Actualiza README y docs/VALIDACION_V2.md. Comprueba git diff --check, git status, pruebas. Haz commits LOCALES descriptivos con working tree limpio, sin push.
+10. Entrega resumen FINAL: rama, HEAD, principales archivos, cobertura 1–39 (completo/parcial por falta de insumos), número de tests aprobados, warnings y discrepancias del Word, cómo iniciar la app en Windows y limitaciones documentales. Si algo no puede implementarse por falta de datos, deja una interfaz útil para capturar los datos y señala explícitamente el estado, nunca afirmes que quedó calculado.
+
+PRUEBAS DE ACEPTACIÓN OBLIGATORIAS
+T1. Con ejemplo, fórmulas de capacidad secuencial: 28,200/10,200=2.76470588; 3.5+6+2+0.25=11.75; presentaciones por lote = 10 kg.
+T2. Costos CF=190,300; CVU=11.38; P=35; Qe real=8056.73158; unidades enteras=8057; número reportado Word=8055 conservado con alerta.
+T3. Ponderación municipios = 54.75, 70, 86; suma pesos=1; pesos inválidos deben mostrar error.
+T4. P-Q 7.75 lotes/día × 26 días/mes, 6,448/806 bolsas por mes; sumatoria de tabla declarada (2,553.0) vs valores redondeados (2,553.1) señalada.
+T5. TW=I*d, D=n*d, T=n*(2*d/0.9+t_c), suma de rutas, ahorro; diferencia entre valores reportados vs resultado de datos tabulares cuando existan decimales/redondeos; vacío separado.
+T6. Pareto causas [93.0,30.1,11.5,10.5,9.1,8.3,2.6] suma 165.1; Word 165.2; alerta y acumulado correcto de lo recomputado.
+T7. 7R preserva 5 Parcial/2 No cumple; no hace 7/7 cumplidos. 5S máximo 40, criterio incompleto no da puntuación válida.
+T8. LCC/NPV/payback sin inversión/tasa/flujos necesarios: 'No calculable', no 0 ni cifras Word como si se recomputaran.
+T9. Limpiar desde ejemplo vacía todas las tablas/inputs y exportes; cargar ejemplo los restaura; editar un valor afecta gráfico/Excel; no hay errores de session_state.
+T10. Números negativos imposibles, divisiones por cero, pesos inválidos, filas incompletas y dependencias de red cíclicas son manejados con mensajes comprensibles, no con crash.
+T11. Cronograma y evaluación financiera no heredan 15 semanas/AMRs/ESD/SMT del caso BITS. El cronograma de Word se muestra como referencia 12 semanas.
+T12. Export XLSX abre correctamente, incluye módulos calculados y conserva origen del dato; no mezcla índices ni resultados anteriores.
+T13. No regresión: pruebas originales del MVP siguen pasando o se actualizan con explicación y reemplazos equivalentes; nueva cobertura suficiente en funciones críticas, no solo mocks.
+
+INSTRUCCIÓN DE INICIO
+Empieza ahora. Primero inspecciona el repositorio y Word, luego implementa íntegramente y valida. No respondas únicamente con recomendaciones o un ejemplo de código: realiza los cambios en la carpeta local, instala lo necesario y deja la aplicación ejecutable y probada. Al final indícame exactamente cómo iniciarla con PowerShell, la rama, el commit local y lo que quedó completo o pendiente por ausencia de datos del Word.

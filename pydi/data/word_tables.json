@@ -1,0 +1,2018 @@
+{
+  "source": "Paquete_Codex_Industrial_App_V2_SHA\\referencias_v2\\Proyecto PYDI (1)(1).docx",
+  "note": "Transcripción literal de celdas; revisar tipo y unidad antes de calcular.",
+  "tables": {
+    "0": [
+      [
+        "AVENA CON SOYA",
+        "AVENA CON SOYA",
+        "AVENA CON SOYA",
+        "AVENA CON SOYA",
+        "AVENA CON SOYA"
+      ],
+      [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Ingredientes",
+        "Std pack (kg)",
+        "Costo ($)",
+        "Proporción (kg)",
+        "Costo unitario ($)"
+      ],
+      [
+        "Avena",
+        "1",
+        "25",
+        "3.5",
+        " $                   87.50 "
+      ],
+      [
+        "Soya",
+        "1",
+        "40",
+        "6",
+        " $                 240.00 "
+      ],
+      [
+        "Cacahuate",
+        "1",
+        "45",
+        "2",
+        " $                   90.00 "
+      ],
+      [
+        "Canela",
+        "1",
+        "30",
+        "0.25",
+        " $                     7.50 "
+      ],
+      [
+        "Bolsas ",
+        "50",
+        "30",
+        "1",
+        " $                   30.00 "
+      ],
+      [
+        "",
+        "",
+        "",
+        "",
+        " $                 455.00 "
+      ]
+    ],
+    "8": [
+      [
+        "METODO PONDERACION DE FACTORES",
+        "METODO PONDERACION DE FACTORES",
+        "METODO PONDERACION DE FACTORES",
+        "METODO PONDERACION DE FACTORES",
+        "METODO PONDERACION DE FACTORES",
+        "METODO PONDERACION DE FACTORES"
+      ],
+      [
+        "Factor",
+        "Descripción",
+        "Peso ",
+        "Union Juarez",
+        "Cacahoatan",
+        "Tapachula"
+      ],
+      [
+        "1",
+        "Disponibilidad de mano de obra calificada",
+        "0.15",
+        "45",
+        "60",
+        "90"
+      ],
+      [
+        "2",
+        "Proximidad a los mercados principales",
+        "0.20",
+        "50",
+        "75",
+        "90"
+      ],
+      [
+        "3",
+        "Costo de la energía y servicios públicos",
+        "0.30",
+        "65",
+        "75",
+        "90"
+      ],
+      [
+        "4",
+        "Calidad de la infraestructura vial",
+        "0.20",
+        "40",
+        "65",
+        "85"
+      ],
+      [
+        "5",
+        "Impuestos y reglamentaciones locales",
+        "0.15",
+        "70",
+        "70",
+        "70"
+      ],
+      [
+        "RESULTADO EVAULACION",
+        "RESULTADO EVAULACION",
+        "RESULTADO EVAULACION",
+        "54.75",
+        "70",
+        "86"
+      ]
+    ],
+    "9": [
+      [
+        "MICROLOCALIZACION",
+        "MICROLOCALIZACION",
+        "MICROLOCALIZACION",
+        "MICROLOCALIZACION"
+      ],
+      [
+        "N",
+        "Terreno",
+        "Localización",
+        "Costo"
+      ],
+      [
+        "1",
+        "",
+        "\n30827 Murillo, Chis. #s/n, Colonia El Jardín, C.P. 30827",
+        "$1,150,000"
+      ],
+      [
+        "",
+        "",
+        "\nCarretera a Puerto Madero esquina camino vecinal #km 12-700, Colonia 5 de Febrero, C.P. 30710",
+        "$12,000,000"
+      ],
+      [
+        "",
+        "",
+        "\nCarretera a Puerto Madero km 12-500 Col 5 de febrero #km 12-500, Colonia 5 de Febrero, C.P. 30710",
+        "$14,000,000"
+      ]
+    ],
+    "10": [
+      [
+        "DISTANCIAS DE LOS EQUIPOS DE EMERGENCIA",
+        "DISTANCIAS DE LOS EQUIPOS DE EMERGENCIA",
+        "DISTANCIAS DE LOS EQUIPOS DE EMERGENCIA",
+        "DISTANCIAS DE LOS EQUIPOS DE EMERGENCIA"
+      ],
+      [
+        "Servicio",
+        "Distancia aprox. (km)",
+        "Tiempo aprox. (min)",
+        "Importancia"
+      ],
+      [
+        "Hospital General de Tapachula",
+        "11.0",
+        "15-20",
+        "Atención médica de urgencias y hospitalización. "
+      ],
+      [
+        "Heroico Cuerpo de Bomberos de Tapachula",
+        "12.0",
+        "18-22",
+        "Atención de incendios, rescates y fugas. "
+      ],
+      [
+        "Cruz Roja Mexicana Delegación Tapachula",
+        "11-13",
+        "15-20",
+        "Atención prehospitalaria y ambulancias."
+      ],
+      [
+        "Protección Civil Municipal de Tapachula",
+        "10-12",
+        "15-20",
+        "Gestión de riesgos y emergencias."
+      ],
+      [
+        "Secretaría de Seguridad Pública Municipal",
+        "10-12",
+        "15-20",
+        "Seguridad y apoyo en contingencias."
+      ],
+      [
+        "Guardia Nacional",
+        "12-15",
+        "18-25",
+        "Apoyo a la seguridad y protección de instalaciones."
+      ],
+      [
+        "Hospital Regional de Alta Especialidad Ciudad Salud",
+        "14-16",
+        "20-25",
+        "Atención médica especializada."
+      ],
+      [
+        "IMSS Hospital General de Zona No. 1 Nueva Frontera",
+        "10-12",
+        "15-20",
+        "Atención médica para trabajadores afiliados."
+      ]
+    ],
+    "11": [
+      [
+        "Concepto",
+        "Costo mensual"
+      ],
+      [
+        "Renta",
+        "$30,000"
+      ],
+      [
+        "Electricidad",
+        "$10,000"
+      ],
+      [
+        "Agua",
+        "$1,000"
+      ],
+      [
+        "Publicidad",
+        "$4,000"
+      ],
+      [
+        "Limpieza y sanitización",
+        "$1,500"
+      ],
+      [
+        "Papelería y suministros",
+        "$800"
+      ],
+      [
+        "Mano de obra directa",
+        "$114,000"
+      ],
+      [
+        "Mano de obra indirecta",
+        "$29,000"
+      ],
+      [
+        "Total",
+        "$190,300"
+      ]
+    ],
+    "12": [
+      [
+        "Materia prima",
+        "Costo por bolsa"
+      ],
+      [
+        "Avena",
+        "$2.19"
+      ],
+      [
+        "Soya",
+        "$6.00"
+      ],
+      [
+        "Cacahuate",
+        "$2.25"
+      ],
+      [
+        "Canela",
+        "$0.19"
+      ],
+      [
+        "Bolsa",
+        "$0.75"
+      ]
+    ],
+    "16": [
+      [
+        "COSTOS FIJOS",
+        "COSTOS FIJOS"
+      ],
+      [
+        "Concepto",
+        "Costo mensual"
+      ],
+      [
+        "Renta de nave",
+        "$30,000"
+      ],
+      [
+        "Electricidad",
+        "$10,000"
+      ],
+      [
+        "Agua",
+        "$1,000"
+      ],
+      [
+        "Publicidad y promoción",
+        "$4,000"
+      ],
+      [
+        "Limpieza y sanitización",
+        "$1,500"
+      ],
+      [
+        "Papelería y suministros",
+        "$800"
+      ],
+      [
+        "Mano de obra directa",
+        "$114,000"
+      ],
+      [
+        "Mano de obra indirecta",
+        "$29,000"
+      ],
+      [
+        "TOTAL",
+        "$190,300"
+      ]
+    ],
+    "17": [
+      [
+        "Código",
+        "Nombre",
+        "Tipo",
+        "Unidad",
+        "Presentación y dimensiones",
+        "Peso aprox.",
+        "Cantidad utilizada"
+      ],
+      [
+        "ASO-MP-001",
+        "Avena en hojuela",
+        "MP",
+        "kg",
+        "Costal ≈ 60 × 40 × 26 cm [S]",
+        "25 kg/costal [S]",
+        "3.5 kg/lote [D]; 27.1 kg/día"
+      ],
+      [
+        "ASO-MP-002",
+        "Soya en grano",
+        "MP",
+        "kg",
+        "Costal ≈ 60 × 40 × 15 cm [S]",
+        "25 kg/costal [S]",
+        "6 kg/lote [D]; 46.5 kg/día"
+      ],
+      [
+        "ASO-MP-003",
+        "Cacahuate natural",
+        "MP",
+        "kg",
+        "Costal ≈ 60 × 40 × 17 cm [S]",
+        "25 kg/costal [S]",
+        "2 kg/lote [D]; 15.5 kg/día"
+      ],
+      [
+        "ASO-MP-004",
+        "Canela en raja",
+        "MP",
+        "kg",
+        "Caja ≈ 30 × 20 × 20 cm [S]",
+        "5 kg/caja [S]",
+        "0.25 kg/lote [D]; 1.94 kg/día"
+      ],
+      [
+        "ASO-ME-005",
+        "Bolsa para 250 g",
+        "ME",
+        "pza",
+        "Paquete de 50 [D]; ≈ 15 × 23 cm [S]",
+        "≈ 5 g [S]",
+        "32/lote [D]; 248/día"
+      ],
+      [
+        "ASO-ME-006",
+        "Bolsa para 500 g",
+        "ME",
+        "pza",
+        "Paquete de 50 [D]; ≈ 18 × 28 cm [S]",
+        "≈ 8 g [S]",
+        "4/lote [D]; 31/día"
+      ],
+      [
+        "ASO-ME-007",
+        "Etiqueta de producto",
+        "ME",
+        "pza",
+        "Rollo [P]",
+        "≈ 0.5 g [S]",
+        "36/lote; 279/día"
+      ],
+      [
+        "ASO-ME-008",
+        "Etiqueta logística Code 128",
+        "ME",
+        "pza",
+        "Rollo térmico de 4 in [P]",
+        "—",
+        "≈ 13 cajas/día más ubicaciones"
+      ],
+      [
+        "ASO-ME-009",
+        "Caja corrugada 24 × 250 g",
+        "ME",
+        "pza",
+        "40 × 33 × 20 cm [P]",
+        "≈ 0.42 kg [S]",
+        "1.33/lote; 10.3/día"
+      ],
+      [
+        "ASO-ME-010",
+        "Caja corrugada 12 × 500 g",
+        "ME",
+        "pza",
+        "40 × 33 × 25 cm [P]",
+        "≈ 0.45 kg [S]",
+        "0.33/lote; 2.6/día"
+      ],
+      [
+        "ASO-ME-011",
+        "Cinta adhesiva",
+        "ME",
+        "rollo",
+        "48 mm [S]",
+        "—",
+        "Un cierre por caja"
+      ],
+      [
+        "ASO-ME-012",
+        "Película estirable",
+        "ME",
+        "rollo",
+        "50 cm [P]",
+        "—",
+        "Por tarima de embarque"
+      ],
+      [
+        "ASO-PP-013",
+        "Kit de lote dosificado",
+        "PP",
+        "lote",
+        "4 contenedores PP",
+        "11.75 kg [D]",
+        "7.75 kits/día"
+      ],
+      [
+        "ASO-PP-014",
+        "Mezcla tostada",
+        "PP",
+        "kg",
+        "5 charolas por lote [P]",
+        "≈ 10.5 kg/lote [S]",
+        "81.4 kg/día"
+      ],
+      [
+        "ASO-PP-015",
+        "Polvo molido a granel",
+        "PP",
+        "kg",
+        "2 contenedores de 5 kg [P]",
+        "10 kg/lote [D]",
+        "77.5 kg/día"
+      ],
+      [
+        "ASO-PT-016",
+        "Bolsa de producto 250 g",
+        "PT",
+        "pza",
+        "Bolsa sellada",
+        "≈ 0.255 kg [C]",
+        "32/lote; 248/día"
+      ],
+      [
+        "ASO-PT-017",
+        "Bolsa de producto 500 g",
+        "PT",
+        "pza",
+        "Bolsa sellada",
+        "≈ 0.508 kg [C]",
+        "4/lote; 31/día"
+      ],
+      [
+        "ASO-PT-018",
+        "Caja PT 24 × 250 g",
+        "PT",
+        "caja",
+        "40 × 33 × 20 cm [P]",
+        "≈ 6.54 kg [C]",
+        "10.3/día"
+      ],
+      [
+        "ASO-PT-019",
+        "Caja PT 12 × 500 g",
+        "PT",
+        "caja",
+        "40 × 33 × 25 cm [P]",
+        "≈ 6.55 kg [C]",
+        "2.6/día"
+      ],
+      [
+        "ASO-HE-020",
+        "Tarima plástica",
+        "HE",
+        "pza",
+        "120 × 100 × 15 cm [P]",
+        "≈ 20 kg [S]",
+        "12"
+      ],
+      [
+        "ASO-HE-021",
+        "Contenedor PP con tapa",
+        "HE",
+        "pza",
+        "40 × 30 × 22 cm, ≈ 20 L [P]",
+        "≈ 1.2 kg [S]",
+        "30"
+      ],
+      [
+        "ASO-HE-022",
+        "Charola de acero inoxidable",
+        "HE",
+        "pza",
+        "60 × 40 × 5 cm [P]",
+        "≈ 1.5 kg [S]",
+        "24"
+      ],
+      [
+        "ASO-HE-023",
+        "Carro portacharolas",
+        "HE",
+        "pza",
+        "10 niveles [P]",
+        "—",
+        "2"
+      ],
+      [
+        "ASO-HE-024",
+        "Carrito de plataforma",
+        "HE",
+        "pza",
+        "90 × 60 cm, 300 kg [P]",
+        "—",
+        "3"
+      ],
+      [
+        "ASO-HE-025",
+        "Diablito",
+        "HE",
+        "pza",
+        "2 ruedas [D]",
+        "—",
+        "1"
+      ],
+      [
+        "ASO-HE-026",
+        "Patín hidráulico manual",
+        "HE",
+        "pza",
+        "2,500 kg [P]",
+        "—",
+        "1"
+      ],
+      [
+        "ASO-HE-027",
+        "Tolva de dosificación",
+        "HE",
+        "pza",
+        "60 L con tapa y ruedas [P]",
+        "—",
+        "4"
+      ],
+      [
+        "ASO-HM-028",
+        "Pala o espátula inox",
+        "HM",
+        "pza",
+        "—",
+        "—",
+        "2"
+      ],
+      [
+        "ASO-HM-029",
+        "Pinzas",
+        "HM",
+        "pza",
+        "—",
+        "—",
+        "2"
+      ],
+      [
+        "ASO-HM-030",
+        "Termómetro",
+        "HM",
+        "pza",
+        "—",
+        "—",
+        "1"
+      ],
+      [
+        "ASO-HM-031",
+        "Cucharón y vaso medidor",
+        "HM",
+        "juego",
+        "—",
+        "—",
+        "2"
+      ],
+      [
+        "ASO-HM-032",
+        "Embudo dosificador",
+        "HM",
+        "pza",
+        "—",
+        "—",
+        "2"
+      ],
+      [
+        "ASO-HM-033",
+        "Tijeras",
+        "HM",
+        "pza",
+        "—",
+        "—",
+        "1"
+      ],
+      [
+        "ASO-IL-034",
+        "Detergente",
+        "IL",
+        "L",
+        "Garrafa [S]",
+        "—",
+        "Según programa de limpieza"
+      ],
+      [
+        "ASO-IL-035",
+        "Desinfectante grado alimenticio",
+        "IL",
+        "L",
+        "Garrafa [S]",
+        "—",
+        "Diario"
+      ],
+      [
+        "ASO-IL-036",
+        "Toallas o paños",
+        "IL",
+        "paquete",
+        "—",
+        "—",
+        "Diario"
+      ],
+      [
+        "ASO-IL-037",
+        "Cepillos",
+        "IL",
+        "pza",
+        "—",
+        "—",
+        "Diario"
+      ],
+      [
+        "ASO-IL-038",
+        "Guantes desechables",
+        "IL",
+        "caja",
+        "100 piezas [S]",
+        "—",
+        "Diario"
+      ],
+      [
+        "ASO-IM-039",
+        "Lubricante grado alimenticio H1",
+        "IM",
+        "L",
+        "—",
+        "—",
+        "Según fabricante"
+      ],
+      [
+        "ASO-EP-040",
+        "Guantes térmicos",
+        "EP",
+        "par",
+        "—",
+        "—",
+        "2 pares"
+      ],
+      [
+        "ASO-EP-041",
+        "Cubrebocas, cofia y bata",
+        "EP",
+        "juego",
+        "—",
+        "—",
+        "1 por persona y turno"
+      ],
+      [
+        "ASO-RS-042",
+        "Merma y residuos de proceso",
+        "RS",
+        "kg",
+        "Contenedor con tapa",
+        "1.75 kg/lote [C]",
+        "13.6 kg/día"
+      ]
+    ],
+    "18": [
+      [
+        "R",
+        "Aplicación en el proceso",
+        "Situación actual (método base)",
+        "Cumplimiento",
+        "Propuesta de mejora"
+      ],
+      [
+        "Material correcto",
+        "Que cada lote reciba soya, avena, cacahuate y canela, sin confundir alérgenos",
+        "Costales sin código; ingredientes parecidos almacenados juntos",
+        "Parcial",
+        "Clave y código Code 128 por material; posiciones dedicadas; lectura del código al armar el kit"
+      ],
+      [
+        "Cantidad correcta",
+        "3.5 / 6 / 2 / 0.25 kg por lote, según la formulación [D]",
+        "No hay operación de dosificación ni báscula en preparación",
+        "No cumple",
+        "Báscula BAS-02 en preparación; kit de lote de 11.75 kg; reabasto con kanban de dos contenedores"
+      ],
+      [
+        "Condición correcta",
+        "Alimento inocuo y seco; producto tostado frío antes de moler (NOM-251-SSA1-2009)",
+        "Tarimas de madera, recipientes no estandarizados y charolas calientes movidas a mano",
+        "Parcial",
+        "Tarimas plásticas, contenedores PP con tapa, carro portacharolas que permite enfriar, área de lavado"
+      ],
+      [
+        "Lugar correcto",
+        "Material en el punto de uso, sin rodeos",
+        "El pesado en empaque obliga a recorrer 31 m y luego 23 m por cada ingrediente",
+        "No cumple",
+        "Área de preparación entre el almacén de MP y el tostado; flujo en U"
+      ],
+      [
+        "Tiempo correcto",
+        "Kit listo antes de que se libere la tostadora (takt de 3,639 s)",
+        "Un lote a la vez: 2.76 lotes por turno",
+        "Parcial",
+        "Lotes escalonados; kit preparado con un lote de anticipación"
+      ],
+      [
+        "Posición y secuencia correctas",
+        "PEPS por fecha de lote; cajas orientadas con la etiqueta al frente",
+        "Sin regla de rotación ni orientación",
+        "Parcial",
+        "PEPS/FEFO con lote codificado; estiba en columnas; etiqueta visible al pasillo"
+      ],
+      [
+        "Costo correcto",
+        "Mínimo tiempo y mínima merma por manejo",
+        "165 min/día de manejo y 1 % de merma por manejo [S]",
+        "Parcial",
+        "34 min/día y 0.3 % de merma; costo de ciclo de vida 32 % menor (puntos 8 y 31)"
+      ]
+    ],
+    "19": [
+      [
+        "Material",
+        "Cantidad (kg/mes)",
+        "%",
+        "% acumulado",
+        "Clase"
+      ],
+      [
+        "Soya",
+        "1,209.0",
+        "47.4",
+        "47.4",
+        "A"
+      ],
+      [
+        "Avena",
+        "705.3",
+        "27.6",
+        "75.0",
+        "A"
+      ],
+      [
+        "Cacahuate",
+        "403.0",
+        "15.8",
+        "90.8",
+        "B"
+      ],
+      [
+        "Cajas de cartón",
+        "143.1",
+        "5.6",
+        "96.4",
+        "C"
+      ],
+      [
+        "Canela",
+        "50.4",
+        "2.0",
+        "98.3",
+        "C"
+      ],
+      [
+        "Bolsas de empaque",
+        "38.7",
+        "1.5",
+        "99.9",
+        "C"
+      ],
+      [
+        "Etiquetas",
+        "3.6",
+        "0.1",
+        "100.0",
+        "C"
+      ],
+      [
+        "Total",
+        "2,553.0",
+        "100.0",
+        "",
+        ""
+      ]
+    ],
+    "20": [
+      [
+        "Clave",
+        "Carga unitaria",
+        "Composición",
+        "Peso bruto aprox.",
+        "Dimensiones",
+        "Equipo",
+        "Justificación"
+      ],
+      [
+        "CU-1",
+        "Tarima de materia prima",
+        "2 o 3 camas × 5 costales de 25 kg (10 a 15 costales)",
+        "270 a 395 kg",
+        "120 × 100 × 45 a 93 cm",
+        "Patín hidráulico",
+        "La entrega semanal de cada grano cabe en una tarima (soya: 12 costales) [C]"
+      ],
+      [
+        "CU-2",
+        "Caja de canela",
+        "Caja de 5 kg",
+        "5 kg",
+        "≈ 30 × 20 × 20 cm [S]",
+        "Manual",
+        "Consumo bajo (1.94 kg/día)"
+      ],
+      [
+        "CU-3",
+        "Kit de lote",
+        "4 contenedores PP: soya 6 kg, avena 3.5 kg, cacahuate 2 kg, canela 0.25 kg",
+        "11.75 kg + 4.8 kg de tara ≈ 16.6 kg",
+        "4 contenedores de 40 × 30 cm",
+        "Carrito de plataforma",
+        "Un kit = un lote: asegura la fórmula y la trazabilidad"
+      ],
+      [
+        "CU-4",
+        "Carga de tostado",
+        "5 charolas de 60 × 40 cm con ≈ 2.1 kg cada una",
+        "≈ 10.5 kg + charolas",
+        "Carro de 10 niveles (2 lotes)",
+        "Carro portacharolas",
+        "Capa delgada (≈ 1.6 cm con densidad supuesta de 0.55 kg/L) que se enfría durante la espera [S]"
+      ],
+      [
+        "CU-5",
+        "Polvo de un lote",
+        "2 contenedores PP con 5 kg cada uno",
+        "≈ 6.2 kg cada uno",
+        "40 × 30 × 22 cm",
+        "Carrito de plataforma",
+        "Cada contenedor es manejable a mano (menos de 20 kg)"
+      ],
+      [
+        "CU-6",
+        "Caja de producto terminado",
+        "24 bolsas de 250 g o 12 de 500 g",
+        "≈ 6.5 kg",
+        "40 × 33 × 20 o 25 cm",
+        "Manual o carrito",
+        "El documento indica ≈ 25 bolsas por caja [D]; 24 permite un arreglo de 3 × 8"
+      ],
+      [
+        "CU-7",
+        "Tarima de embarque (pedidos grandes)",
+        "9 cajas × hasta 5 camas = 45 cajas",
+        "≈ 294 kg de carga",
+        "120 × 100 × 115 cm",
+        "Patín hidráulico",
+        "Pedidos de mayoreo; altura limitada a 1.15 m"
+      ]
+    ],
+    "21": [
+      [
+        "Elemento",
+        "Dimensiones",
+        "Capacidad o carga",
+        "Material",
+        "Cantidad",
+        "Ventajas y justificación"
+      ],
+      [
+        "Tarima",
+        "120 × 100 × 15 cm",
+        "Carga máxima en el sistema: 395 kg; capacidad nominal por confirmar con el proveedor",
+        "Polietileno grado alimenticio",
+        "12",
+        "Lavable y sin astillas ni plagas, a diferencia de la madera (NOM-251-SSA1-2009); entrada de horquillas por 4 lados"
+      ],
+      [
+        "Contenedor con tapa",
+        "40 × 30 × 22 cm (≈ 20 L)",
+        "Carga máxima en el sistema: 6 kg",
+        "Polipropileno grado alimenticio",
+        "30",
+        "Apilable y con tapa; un mismo contenedor sirve para el kit y para el polvo; 30 piezas cubren 3 lotes en proceso más los que están en lavado [C]"
+      ],
+      [
+        "Charola",
+        "60 × 40 × 5 cm",
+        "≈ 2.1 kg de producto tostado",
+        "Acero inoxidable AISI 304",
+        "24",
+        "Resiste la temperatura de descarga y encaja en carros estándar de panadería"
+      ],
+      [
+        "Tolva de dosificación",
+        "60 L con tapa y ruedas",
+        "Un costal de 25 kg (la soya ocupa ≈ 35 L)",
+        "Polietileno grado alimenticio",
+        "4",
+        "Recibe el costal completo y evita costales abiertos en el piso"
+      ],
+      [
+        "Caja de cartón corrugado",
+        "40 × 33 × 20 cm y 40 × 33 × 25 cm",
+        "24 × 250 g o 12 × 500 g (≈ 6.5 kg)",
+        "Cartón corrugado",
+        "12.9/día",
+        "Misma huella: 9 cajas cubren el 99 % de la tarima"
+      ],
+      [
+        "Carro portacharolas",
+        "Para charolas de 60 × 40 cm, 10 niveles",
+        "2 lotes (10 charolas)",
+        "Acero inoxidable",
+        "2",
+        "Uno se carga en tostado mientras el otro se descarga en molienda"
+      ]
+    ],
+    "22": [
+      [
+        "ID",
+        "Movimiento",
+        "kg/día",
+        "Viajes/día",
+        "d (m)",
+        "kg·m/día",
+        "m/día",
+        "s/día",
+        "Esfuerzo"
+      ],
+      [
+        "B1",
+        "Descarga del camión a recepción",
+        "91.06",
+        "1.82",
+        "6.5",
+        "591.9",
+        "11.8",
+        "80.9",
+        "Alto: costales de 25 kg a mano"
+      ],
+      [
+        "B2",
+        "Recepción a almacén de MP con diablito",
+        "91.06",
+        "1.82",
+        "5.5",
+        "500.8",
+        "10.0",
+        "76.9",
+        "Medio"
+      ],
+      [
+        "B3",
+        "Almacén de MP a báscula de empaque, por ingrediente",
+        "91.06",
+        "31.00",
+        "31.0",
+        "2,822.9",
+        "961.0",
+        "3,065.6",
+        "Alto: cargar a mano"
+      ],
+      [
+        "B4",
+        "Báscula de empaque a tostado, por ingrediente",
+        "91.06",
+        "31.00",
+        "23.0",
+        "2,094.4",
+        "713.0",
+        "2,514.4",
+        "Alto: cargar a mano"
+      ],
+      [
+        "B5",
+        "Tostado a molino, charola por charola",
+        "81.38",
+        "38.75",
+        "7.5",
+        "610.3",
+        "290.6",
+        "1,808.3",
+        "Alto: producto caliente"
+      ],
+      [
+        "B6",
+        "Molino a empaque en recipientes diversos",
+        "77.50",
+        "15.50",
+        "6.5",
+        "503.8",
+        "100.8",
+        "688.9",
+        "Medio"
+      ],
+      [
+        "B7",
+        "Insumos de empaque, por lote",
+        "7.13",
+        "7.75",
+        "15.5",
+        "110.5",
+        "120.1",
+        "499.4",
+        "Bajo"
+      ],
+      [
+        "B8",
+        "Empaque a almacén de PT, caja por caja",
+        "84.49",
+        "12.92",
+        "8.5",
+        "718.2",
+        "109.8",
+        "631.5",
+        "Medio"
+      ],
+      [
+        "B9",
+        "Almacén de PT a embarque, caja por caja",
+        "84.49",
+        "12.92",
+        "5.5",
+        "464.7",
+        "71.0",
+        "545.4",
+        "Medio"
+      ],
+      [
+        "",
+        "Total",
+        "",
+        "153.48",
+        "",
+        "8,417.6",
+        "2,388.2",
+        "9,911.4 (165.2 min)",
+        ""
+      ]
+    ],
+    "23": [
+      [
+        "ID",
+        "Movimiento",
+        "kg/día",
+        "Viajes/día",
+        "d (m)",
+        "kg·m/día",
+        "m/día",
+        "s/día",
+        "Esfuerzo"
+      ],
+      [
+        "P1",
+        "Descarga del camión a recepción",
+        "91.06",
+        "1.82",
+        "6.5",
+        "591.9",
+        "11.8",
+        "108.3",
+        "Alto: descarga manual, costal ≤ 25 kg"
+      ],
+      [
+        "P2",
+        "Recepción a almacén de MP, tarima por ingrediente con patín",
+        "91.06",
+        "0.67",
+        "5.5",
+        "500.8",
+        "3.7",
+        "38.1",
+        "Bajo"
+      ],
+      [
+        "P3",
+        "Almacén de MP a preparación, kanban con carrito",
+        "91.06",
+        "2.00",
+        "8.5",
+        "774.0",
+        "17.0",
+        "127.8",
+        "Bajo"
+      ],
+      [
+        "P4",
+        "Preparación a tostado, kit de lote en carrito",
+        "91.06",
+        "7.75",
+        "8.5",
+        "774.0",
+        "65.9",
+        "495.1",
+        "Bajo"
+      ],
+      [
+        "P5",
+        "Tostado a molino en carro portacharolas",
+        "81.38",
+        "7.75",
+        "7.5",
+        "610.3",
+        "58.1",
+        "477.9",
+        "Bajo"
+      ],
+      [
+        "P6",
+        "Molino a empaque, 2 contenedores por lote",
+        "77.50",
+        "7.75",
+        "6.5",
+        "503.8",
+        "50.4",
+        "460.7",
+        "Bajo"
+      ],
+      [
+        "P7",
+        "Insumos de empaque en kit diario",
+        "7.13",
+        "1.00",
+        "15.5",
+        "110.5",
+        "15.5",
+        "79.4",
+        "Bajo"
+      ],
+      [
+        "P8",
+        "Empaque a almacén de PT, 6 o 7 cajas en carrito",
+        "84.49",
+        "2.00",
+        "8.5",
+        "718.2",
+        "17.0",
+        "127.8",
+        "Bajo"
+      ],
+      [
+        "P9",
+        "Almacén de PT a embarque, por pedido",
+        "84.49",
+        "2.00",
+        "5.5",
+        "464.7",
+        "11.0",
+        "114.4",
+        "Bajo"
+      ],
+      [
+        "",
+        "Total",
+        "",
+        "32.74",
+        "",
+        "5,048.3",
+        "250.4",
+        "2,029.6 (33.8 min)",
+        ""
+      ]
+    ],
+    "25": [
+      [
+        "Área",
+        "Clave",
+        "Superficie",
+        "Función"
+      ],
+      [
+        "Recepción e inspección de MP",
+        "REC",
+        "40 m²",
+        "Descarga, conteo e inspección"
+      ],
+      [
+        "Almacén de materia prima",
+        "AMP",
+        "48 m²",
+        "Rack de 6 posiciones de tarima"
+      ],
+      [
+        "Preparación de lotes y almacén en proceso",
+        "PRE",
+        "56 m²",
+        "Tolvas, báscula BAS-02, kits y lavado de contenedores"
+      ],
+      [
+        "Tostado",
+        "TOS",
+        "63 m²",
+        "TOS-01, TOS-02 y carro portacharolas"
+      ],
+      [
+        "Molienda",
+        "MOL",
+        "42 m²",
+        "MOL-01 en cuarto cerrado"
+      ],
+      [
+        "Empaque y pesado",
+        "EMP",
+        "49 m²",
+        "Mesas, SEL-01 y BAS-01"
+      ],
+      [
+        "Almacén de producto terminado",
+        "APT",
+        "42 m²",
+        "Anaqueles APT-A, APT-B y APT-Q"
+      ],
+      [
+        "Embarque",
+        "EMB",
+        "35 m²",
+        "Consolidación de pedidos"
+      ],
+      [
+        "Insumos de empaque",
+        "AIE",
+        "18 m²",
+        "Bolsas, etiquetas y cajas"
+      ],
+      [
+        "Servicios",
+        "—",
+        "104 m²",
+        "Oficinas, sanitarios y vestidores, comedor, limpieza y mantenimiento"
+      ]
+    ],
+    "26": [
+      [
+        "Desperdicio",
+        "Cómo se presenta en el proceso",
+        "Evidencia",
+        "Acción para reducirlo"
+      ],
+      [
+        "Sobreproducción",
+        "Empacar más bolsas de una presentación de las que pide el mercado, o producir lotes por encima de la demanda",
+        "Sin programa de producción ligado a pedidos",
+        "Programar 7.75 lotes/día según el punto de equilibrio; tope de 39 cajas en APT como kanban de producto terminado"
+      ],
+      [
+        "Esperas",
+        "La tostadora espera ingredientes; cada lote empieza hasta que termina el anterior",
+        "2.76 lotes/turno contra 7.83 posibles con lotes escalonados",
+        "Kit preparado con un lote de anticipación; arranque de cada lote cada 3,639 s (takt)"
+      ],
+      [
+        "Transporte innecesario",
+        "Cada ingrediente viaja al área de empaque para pesarse y regresa a tostado",
+        "B3 + B4: 54 m por ingrediente, 1,674 m/día",
+        "Báscula BAS-02 en preparación, contigua al almacén de MP y al tostado"
+      ],
+      [
+        "Sobreprocesamiento",
+        "Pesar el producto ya sellado obliga a abrir y volver a sellar las bolsas fuera de peso",
+        "El pesado está después del empaquetado [D]",
+        "Dosificar sobre la báscula antes de sellar; el pesado posterior queda como verificación"
+      ],
+      [
+        "Inventario excesivo",
+        "Compras sin política de reposición",
+        "Supuesto de compras quincenales: 11.5 días de MP en promedio ($40,552)",
+        "Compra semanal con inventario de seguridad de 3 días: 6 días en promedio ($21,158)"
+      ],
+      [
+        "Movimientos innecesarios",
+        "Agacharse por costales en el piso, buscar herramientas y materiales",
+        "Costales sin ubicación fija; herramental sin tablero",
+        "Tolvas a la altura de trabajo, rack con ubicaciones codificadas, 5S (punto 14)"
+      ],
+      [
+        "Defectos",
+        "Lote fuera de fórmula, sellos con polvo, contaminación cruzada con alérgenos",
+        "Sin dosificación verificada; supuesto de 1 lote rechazado al mes",
+        "Kit verificado con lector y báscula; limpieza de mordazas; segregación de alérgenos"
+      ]
+    ],
+    "27": [
+      [
+        "Aspecto",
+        "Situación actual (método base)",
+        "Propuesta",
+        "Resultado"
+      ],
+      [
+        "Transportes innecesarios",
+        "153.5 viajes/día; 2,388 m/día con carga; pesaje en empaque",
+        "Kit de lote en preparación; carro portacharolas; carrito con 6 o 7 cajas",
+        "32.7 viajes/día; 250 m/día (−89.5 %)"
+      ],
+      [
+        "Tiempos de espera",
+        "Un lote a la vez: 2.76 lotes/turno; la tostadora espera ingredientes",
+        "Lotes escalonados, kit anticipado, dos tostadoras",
+        "7.83 lotes/turno; cuello de botella de 3,600 s, por debajo del takt de 3,639 s"
+      ],
+      [
+        "Exceso de inventario",
+        "11.5 días de MP ($40,552) sin regla PEPS",
+        "Compra semanal, inventario de seguridad de 3 días, PEPS por lote",
+        "6 días de MP ($21,158), −48 %"
+      ],
+      [
+        "Movimientos ineficientes",
+        "Costales en el piso, charolas calientes a mano, 165 min/día de manejo",
+        "Tolvas con ruedas, rack, carros; tareas manuales solo en descarga y vaciado",
+        "34 min/día de manejo (−79.5 %)"
+      ]
+    ],
+    "28": [
+      [
+        "Causa (rutas)",
+        "Tiempo (min/día)",
+        "%",
+        "% acumulado",
+        "Clasificación"
+      ],
+      [
+        "Dosificación sin báscula en preparación (B3 + B4)",
+        "93.0",
+        "56.3",
+        "56.3",
+        "Pocos vitales"
+      ],
+      [
+        "Charolas calientes trasladadas una por una (B5)",
+        "30.1",
+        "18.2",
+        "74.5",
+        "Pocos vitales"
+      ],
+      [
+        "Recipientes de polvo no estandarizados (B6)",
+        "11.5",
+        "7.0",
+        "81.5",
+        "Pocos vitales"
+      ],
+      [
+        "Producto terminado movido caja por caja (B8)",
+        "10.5",
+        "6.4",
+        "87.9",
+        "Muchos triviales"
+      ],
+      [
+        "Surtido a embarque caja por caja (B9)",
+        "9.1",
+        "5.5",
+        "93.4",
+        "Muchos triviales"
+      ],
+      [
+        "Abasto de insumos de empaque por lote (B7)",
+        "8.3",
+        "5.0",
+        "98.4",
+        "Muchos triviales"
+      ],
+      [
+        "Recepción sin carga unitaria (B1 + B2)",
+        "2.6",
+        "1.6",
+        "100.0",
+        "Muchos triviales"
+      ],
+      [
+        "Total",
+        "165.2",
+        "100.0",
+        "",
+        ""
+      ]
+    ],
+    "29": [
+      [
+        "N°",
+        "S",
+        "Criterio de evaluación",
+        "Cumple (2)",
+        "Parcial (1)",
+        "No cumple (0)",
+        "Observaciones"
+      ],
+      [
+        "1",
+        "Seiri (clasificar)",
+        "En AMP solo hay los 4 ingredientes y los insumos permitidos",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "2",
+        "Seiri",
+        "No hay costales vacíos, cartón ni tarimas dañadas en pasillos",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "3",
+        "Seiri",
+        "El producto retenido o en cuarentena está solo en APT-Q y está identificado",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "4",
+        "Seiri",
+        "En las mesas de PRE y EMP solo están las herramientas del lote en curso",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "5",
+        "Seiton (ordenar)",
+        "Cada tarima ocupa su posición dedicada (SOY, AVE, CAC)",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "6",
+        "Seiton",
+        "Las ubicaciones del rack y los anaqueles tienen etiqueta Code 128 legible",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "7",
+        "Seiton",
+        "Las herramientas están en su tablero con silueta",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "8",
+        "Seiton",
+        "Los pasillos están marcados, libres y con al menos 2 m de ancho",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "9",
+        "Seiso (limpiar)",
+        "No hay polvo acumulado en el molino, la descarga ni el piso de MOL",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "10",
+        "Seiso",
+        "Las tostadoras están libres de cascarilla al cierre del turno",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "11",
+        "Seiso",
+        "Los contenedores y charolas se lavan y secan antes de reutilizarse",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "12",
+        "Seiso",
+        "La zona de sellado de SEL-01 está limpia y la cinta de teflón está sana",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "13",
+        "Seiketsu (estandarizar)",
+        "Los procedimientos de recepción, preparación y traslado están visibles en cada área",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "14",
+        "Seiketsu",
+        "Los kits llevan la etiqueta de lote y los contenedores tienen tapa",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "15",
+        "Seiketsu",
+        "Las cajas de producto terminado están estibadas en columnas de máximo 3 por nivel",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "16",
+        "Seiketsu",
+        "La señalización cumple los colores de NOM-026-STPS-2008",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "17",
+        "Shitsuke (disciplina)",
+        "Las salidas de MP y PT respetan PEPS según el registro de inventario",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "18",
+        "Shitsuke",
+        "El personal usa cofia, cubrebocas, bata y guantes térmicos donde aplica",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "19",
+        "Shitsuke",
+        "Se registran los movimientos con el lector en el momento en que ocurren",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "20",
+        "Shitsuke",
+        "Las acciones de la auditoría anterior están cerradas",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "",
+        "",
+        "Puntuación total (máximo 40)",
+        "",
+        "",
+        "",
+        ""
+      ]
+    ],
+    "30": [
+      [
+        "Principio",
+        "Qué establece",
+        "Situación en el proceso",
+        "Aplicación propuesta"
+      ],
+      [
+        "1. Planeación",
+        "Definir necesidades, objetivos y especificaciones antes de elegir equipo",
+        "El documento no define el manejo entre etapas",
+        "Volumen de diseño, rutas, cargas unitarias y equipos definidos en este proyecto (SHA, punto 26)"
+      ],
+      [
+        "2. Estandarización",
+        "Unificar métodos, equipos y contenedores sin perder flexibilidad",
+        "Recipientes y cajas sin medida fija",
+        "Módulos de 120 × 100 y 40 × 30 cm; caja de 40 × 33 cm para ambas presentaciones"
+      ],
+      [
+        "3. Trabajo",
+        "Minimizar el trabajo de manejo (cantidad × distancia) sin afectar la productividad",
+        "8,418 kg·m/día y 153.5 viajes en el método base",
+        "5,048 kg·m/día y 32.7 viajes; preparación junto al tostado"
+      ],
+      [
+        "4. Ergonomía",
+        "Adaptar las tareas a las capacidades del trabajador",
+        "Costales de 25 kg cargados a mano en traslados largos; charolas calientes a mano",
+        "Manejo manual solo en descarga y vaciado, dentro del límite de NOM-036-1-STPS-2018; tolvas a la altura de trabajo; carro portacharolas"
+      ],
+      [
+        "5. Carga unitaria",
+        "Usar cargas del tamaño adecuado según la etapa",
+        "Costales y charolas sueltos",
+        "Siete cargas unitarias (punto 5): tarima, kit, carga de tostado, contenedor de polvo y caja"
+      ],
+      [
+        "6. Utilización del espacio",
+        "Aprovechar el espacio cúbico y mantener áreas ordenadas",
+        "Almacenamiento a piso sin posiciones",
+        "Rack con nivel superior para cajas ligeras; anaqueles de 3 niveles útiles; almacenamiento aleatorio en APT"
+      ],
+      [
+        "7. Sistema",
+        "Integrar recepción, almacenamiento, producción y embarque",
+        "Etapas tratadas por separado",
+        "Flujo en U con identificación común (Code 128) y registro de inventarios único"
+      ],
+      [
+        "8. Automatización",
+        "Automatizar donde mejore la eficiencia y la confiabilidad",
+        "Sin registro de movimientos",
+        "Lectura de códigos de barras e impresión de etiquetas; traslados manuales asistidos (D-I: baja intensidad)"
+      ],
+      [
+        "9. Ambiental",
+        "Reducir el consumo de energía y los residuos",
+        "Tarimas de madera desechables; merma sin medir",
+        "Tarimas y contenedores reutilizables; pesaje de la merma por etapa; equipos sin motor para los traslados"
+      ],
+      [
+        "10. Costo del ciclo de vida",
+        "Evaluar todos los costos durante la vida útil del sistema",
+        "No hay evaluación del manejo",
+        "Costo de ciclo de vida a 8 años: $289,135 contra $424,267 del método base (punto 31)"
+      ]
+    ],
+    "31": [
+      [
+        "Código",
+        "Equipo",
+        "Cantidad",
+        "Especificación requerida",
+        "Justificación técnica"
+      ],
+      [
+        "TOS-01 / TOS-02",
+        "Tostadora industrial para granos y semillas",
+        "2 (TOS-02 propuesta)",
+        "≥ 8 kg por carga; control de temperatura y tiempo; contacto con el alimento en acero inoxidable",
+        "Con una sola tostadora, la planta cubre el 60.7 % del punto de equilibrio; con dos, el 101.1 %"
+      ],
+      [
+        "MOL-01",
+        "Molino industrial para granos y semillas",
+        "1",
+        "≥ 21 kg/h efectivos con criba fina; cámara de acero inoxidable",
+        "Utilización de 49.5 %"
+      ],
+      [
+        "BAS-01",
+        "Báscula digital de pesado",
+        "1",
+        "Capacidad ≥ 1 kg; división ≤ 2 g",
+        "Verificación del contenido neto de 250 g y 500 g"
+      ],
+      [
+        "BAS-02",
+        "Báscula digital de preparación",
+        "1 (propuesta)",
+        "Capacidad ≥ 10 kg; división ≤ 5 g",
+        "Elimina el 56.3 % del tiempo de manejo del método base"
+      ],
+      [
+        "SEL-01",
+        "Selladora térmica de bolsas",
+        "1",
+        "Sello ≥ 30 cm; accionamiento por pedal",
+        "36 bolsas en 1,200 s por lote"
+      ]
+    ],
+    "32": [
+      [
+        "Equipo",
+        "Cantidad",
+        "Especificación",
+        "Función",
+        "Justificación técnica"
+      ],
+      [
+        "Patín hidráulico manual",
+        "1",
+        "2,500 kg; horquillas para tarima de 120 × 100 cm",
+        "Mover tarimas de MP y de embarque",
+        "La tarima más pesada (395 kg) excede el manejo manual"
+      ],
+      [
+        "Carrito de plataforma",
+        "3",
+        "Plataforma de 90 × 60 cm; 300 kg; ruedas de poliuretano",
+        "Kits, contenedores de polvo, reabasto y cajas de PT",
+        "Carga máxima por viaje menor de 100 kg; ruedas que no marcan el piso"
+      ],
+      [
+        "Diablito",
+        "1",
+        "De 2 ruedas [D]",
+        "Descarga de costales",
+        "Equipo del documento; uso limitado a la recepción"
+      ],
+      [
+        "Carro portacharolas",
+        "2",
+        "Acero inoxidable; 10 niveles para charolas de 60 × 40 cm",
+        "Enfriamiento y traslado del tostado",
+        "Evita cargar charolas calientes; 2 lotes por carro"
+      ],
+      [
+        "Tolva de dosificación",
+        "4",
+        "60 L con tapa y ruedas",
+        "Almacén en proceso por ingrediente en PRE",
+        "Recibe un costal completo"
+      ],
+      [
+        "Rack selectivo",
+        "3 bahías",
+        "Frente de 2.7 m, fondo de 1.0 m, nivel superior a 1.5 m",
+        "Almacén de MP",
+        "6 posiciones de tarima a piso más nivel para cajas ligeras"
+      ],
+      [
+        "Anaqueles metálicos",
+        "5",
+        "120 × 45 × 210 cm (APT) y 90 × 45 × 210 cm (AIE) [P]",
+        "Producto terminado e insumos",
+        "Picking manual a la altura de trabajo"
+      ],
+      [
+        "Lector de código de barras",
+        "2",
+        "1D/2D, conexión USB o inalámbrica",
+        "Registro de movimientos",
+        "Uno en recepción y almacén, otro en empaque"
+      ],
+      [
+        "Impresora térmica de etiquetas",
+        "1",
+        "Etiqueta de 4 in",
+        "Etiquetas de lote, caja y ubicación",
+        "13 cajas por día más reposición"
+      ]
+    ],
+    "33": [
+      [
+        "Criterio",
+        "Clase",
+        "Movimientos",
+        "Cantidad"
+      ],
+      [
+        "Zona D-I",
+        "Manejo simple (≤ 15 m, < 1,000 kg/día)",
+        "P1 a P6, P8, P9",
+        "8"
+      ],
+      [
+        "Zona D-I",
+        "Transporte simple (> 15 m, < 1,000 kg/día)",
+        "P7, retorno de vacíos",
+        "2"
+      ],
+      [
+        "Función",
+        "Recepción y almacenamiento",
+        "P1, P2, P3",
+        "3"
+      ],
+      [
+        "Función",
+        "Entre operaciones del proceso",
+        "P4, P5, P6",
+        "3"
+      ],
+      [
+        "Función",
+        "Abasto de insumos y retorno",
+        "P7, R",
+        "2"
+      ],
+      [
+        "Función",
+        "Producto terminado y despacho",
+        "P8, P9",
+        "2"
+      ],
+      [
+        "Frecuencia",
+        "Por lote (7.75/día)",
+        "P4, P5, P6",
+        "3"
+      ],
+      [
+        "Frecuencia",
+        "Diaria (1 o 2/día)",
+        "P3, P7, P8, P9, R",
+        "5"
+      ],
+      [
+        "Frecuencia",
+        "Semanal",
+        "P1, P2",
+        "2"
+      ]
+    ],
+    "34": [
+      [
+        "Indicador",
+        "Fórmula",
+        "Criterio de aceptación",
+        "Frecuencia",
+        "Responsable",
+        "Acción si no se cumple"
+      ],
+      [
+        "Exactitud de inventario",
+        "Ubicaciones correctas / ubicaciones contadas × 100",
+        "≥ 98 %",
+        "Semanal (conteo cíclico)",
+        "Almacenista 1",
+        "Recontar, corregir el registro y buscar la causa del error"
+      ],
+      [
+        "Cumplimiento PEPS/FEFO",
+        "Lotes despachados en orden / lotes despachados × 100",
+        "100 %",
+        "Semanal",
+        "Almacenista 2",
+        "Retener el lote antiguo y reentrenar en picking"
+      ],
+      [
+        "Tiempo de manejo por lote",
+        "Tiempo de manejo diario / lotes",
+        "≤ 262 s (2,030 s / 7.75)",
+        "Mensual (muestreo)",
+        "Supervisor",
+        "Análisis de las rutas con más tiempo"
+      ],
+      [
+        "Distancia con carga",
+        "Σ viajes × distancia",
+        "≤ 250 m/día",
+        "Trimestral",
+        "Supervisor",
+        "Revisar la distribución y las cargas unitarias"
+      ],
+      [
+        "Merma por manejo",
+        "kg perdidos en traslados / kg procesados × 100",
+        "≤ 0.3 %",
+        "Mensual",
+        "Supervisor",
+        "Ishikawa de la merma; revisar contenedores y tapas"
+      ],
+      [
+        "Lotes fuera de fórmula",
+        "Lotes rechazados por dosificación",
+        "0 por mes",
+        "Mensual",
+        "Supervisor",
+        "Verificar BAS-02 y el procedimiento de kit"
+      ],
+      [
+        "Cumplimiento 5S",
+        "Puntos / 40 × 100",
+        "≥ 80 %",
+        "Mensual",
+        "Supervisor",
+        "Plan de acción por área (punto 14)"
+      ],
+      [
+        "Incidentes de manejo",
+        "Accidentes y casi accidentes por manejo de cargas",
+        "0",
+        "Mensual",
+        "Supervisor y comisión de seguridad",
+        "Investigación de causa raíz y corrección inmediata"
+      ],
+      [
+        "Mantenimiento de equipo de manejo",
+        "Revisiones hechas / programadas × 100",
+        "≥ 95 %",
+        "Mensual",
+        "Mantenimiento",
+        "Reprogramar y retirar el equipo dañado"
+      ],
+      [
+        "Ocupación de almacenes",
+        "Posiciones ocupadas / posiciones totales × 100",
+        "AMP y APT ≤ 85 %",
+        "Semanal",
+        "Almacenistas",
+        "Revisar compras y programa de embarques"
+      ]
+    ],
+    "35": [
+      [
+        "Frecuencia",
+        "Qué se revisa",
+        "Quién"
+      ],
+      [
+        "Diaria",
+        "Lista de arranque: básculas con pesa patrón, pasillos libres, contenedores limpios, etiquetas legibles",
+        "Operadores y almacenistas"
+      ],
+      [
+        "Semanal",
+        "Conteo cíclico, PEPS/FEFO, ocupación de almacenes",
+        "Almacenistas y supervisor"
+      ],
+      [
+        "Mensual",
+        "Auditoría 5S, indicadores de tiempo, merma, incidentes y mantenimiento",
+        "Supervisor"
+      ],
+      [
+        "Trimestral",
+        "Revisión del diseño: distancias, cargas unitarias y capacidad frente a la demanda",
+        "Supervisor y gerente general"
+      ],
+      [
+        "Anual",
+        "Auditoría completa del sistema y actualización del costo del ciclo de vida",
+        "Gerente general"
+      ]
+    ]
+  }
+}
