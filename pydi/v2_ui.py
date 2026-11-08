@@ -1,12 +1,19 @@
 """Interfaz Streamlit V2 organizada por dominios, con 39 apartados navegables."""
 
+from datetime import datetime
+
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from pydi.calculations.methods import method_assessment
 from pydi.calculations.storage_finance import dock_capacity
 from pydi.calculations.transport_quality import occupancy
-from pydi.v2_barcode import code128_svg
+from pydi.reporting import ReportInfo, build_report_pdf, case_fingerprint, select_case
+from pydi.reporting.sections import SECTION_SPECS
+from pydi.reporting.validation import BASE_MODE, CUSTOM_MODE
+from pydi.section_catalog import SECTIONS
+from pydi.v2_barcode import code128_preview_png, code128_svg
 from pydi.v2_charts import (
     di_chart,
     equilibrium_chart,
@@ -38,28 +45,8 @@ GROUPS = (
     "12–13 Transporte y plano", "14–17 Mejora y causas", "18–20 Calidad y equipos",
     "21–28 Almacén y logística", "29–33 Plan SHA", "34–37 Economía y selección",
     "38–39 Cronograma y auditoría", "Exportación integral", "Códigos e inventario V3",
+    "Reporte técnico integral PDF",
 )
-
-SECTIONS = {
-    1: "Descripción del producto", 2: "Descripción del proceso", 3: "Ubicación geográfica",
-    4: "Costos de producción", 5: "Identificación y registro formal de elementos",
-    6: "Cumplimiento de las 7 R", 7: "Análisis producto-cantidad P-Q",
-    8: "Fichas técnicas", 9: "Carga unitaria", 10: "Contenedores y palets",
-    11: "Estibado e integridad", 12: "Trabajo de manejo T.W.",
-    13: "Hilos y distancia-intensidad", 14: "Siete desperdicios",
-    15: "Reducción de transporte, esperas e inventario", 16: "Pareto",
-    17: "Ishikawa", 18: "Checklist 5S", 19: "Principios CIC-MHE",
-    20: "Especificación de equipos", 21: "Almacenamiento dedicado",
-    22: "Almacenamiento aleatorio", 23: "Estructuras de almacenaje",
-    24: "Preparación de pedidos", 25: "Tecnología de identificación",
-    26: "Sistemas de información", 27: "Área de muelles", 28: "Equipamiento auxiliar",
-    29: "Estrategia de operación", 30: "Consolidación SHA",
-    31: "Clasificación de movimiento", 32: "Asignación de métodos y equipos",
-    33: "Plano de flujo", 34: "Costo del ciclo de vida",
-    35: "Inversión, costos y recuperación", 36: "Evaluación cualitativa",
-    37: "Selección del sistema", 38: "Cronograma de instalación",
-    39: "Plan de auditoría continua",
-}
 
 NUMERIC_COLUMNS = {
     "kg_lote", "costo_kg_mxn", "duracion_s", "peso", "Union Juarez", "Cacahoatan", "Tapachula",
@@ -433,9 +420,8 @@ def _warehouse() -> None:
         sample = identifiers.iloc[0]
         label = f"{sample['codigo']}|{sample['lote']}|{sample['ubicacion']}"
         st.code(label, language="text")
-        barcode = code128_svg(label)
-        st.image(barcode, caption="Code 128 [M] generado desde el primer registro")
-        st.download_button("Descargar etiqueta SVG", barcode, "etiqueta_code128.svg", "image/svg+xml")
+        st.image(code128_preview_png(label), caption="Code 128 [M] generado desde el primer registro")
+        st.download_button("Descargar etiqueta SVG", code128_svg(label), "etiqueta_code128.svg", "image/svg+xml")
     _section(26, "[M] registro para título Word §26 p.55", "Eventos locales; no hay conexión WMS/ERP.")
     _editor("eventos", "Movimientos y trazabilidad")
     _section(27, "[M] modelo de capacidad de muelle; título Word §27 p.55", "Vehículos/turno = piso(tiempo operativo / tiempo por vehículo) × posiciones; no modela colas.")
@@ -465,8 +451,8 @@ def _sha_plan() -> None:
     if not candidates.empty:
         tested = []
         for row in candidates.itertuples():
-            adequate = pd.notna(row.capacidad_kg) and row.higiene_verificada == True and row.ergonomia_verificada == True
-            tested.append((row.ruta, row.equipo_candidato, "Apto según campos capturados [M]" if adequate else "No evaluable / restricción pendiente"))
+            tested.append((row.ruta, row.equipo_candidato,
+                           method_assessment(row.capacidad_kg, row.higiene_verificada, row.ergonomia_verificada)))
         st.dataframe(pd.DataFrame(tested, columns=["ruta", "equipo", "evaluacion"]), width="stretch", hide_index=True)
 
 
@@ -560,6 +546,57 @@ def _export() -> None:
         st.info("Sin tablas calculadas. El XLSX contiene las entradas vacías y el estado pendiente.")
 
 
+def _report_pdf() -> None:
+    st.header("Generador de reporte técnico integral")
+    st.caption("Documento A4 con portada, índice paginado, resumen, los 39 apartados, tablas, figuras, fórmulas, advertencias, conclusiones y anexos. La base de inventario y ventas no participa en esta exportación.")
+    mode = st.radio("Modalidad de datos", (BASE_MODE, CUSTOM_MODE), horizontal=True, key="report_mode")
+    project = st.text_input("Proyecto o producto", value="Polvo de avena con soya", max_chars=120, key="report_project")
+    c1, c2 = st.columns(2)
+    with c1:
+        responsible = st.text_input("Responsable (opcional)", max_chars=120, key="report_responsible")
+    with c2:
+        institution = st.text_input("Institución (opcional)", max_chars=160, key="report_institution")
+    observations = st.text_area("Observaciones de portada (opcional)", max_chars=800, key="report_observations")
+    metadata = (project, responsible, institution, observations)
+    source_signature = "base-pydi" if mode == BASE_MODE else case_fingerprint(_case())
+    selected = select_case(mode, _case())
+    snapshot = compute_case(selected)
+    st.subheader("Vista previa de los apartados")
+    preview = []
+    for spec in SECTION_SPECS:
+        calculated = any(key in snapshot.metrics for key in spec.metrics) or any(name in snapshot.tables for name in spec.results)
+        captured = any(not selected.tables[name].empty for name in spec.inputs)
+        preview.append((spec.number, spec.title, "Con resultados" if calculated else "Con entradas" if captured else "Pendiente"))
+    st.dataframe(pd.DataFrame(preview, columns=["N.º", "Apartado", "Estado"]), width="stretch", hide_index=True, height=340)
+    st.subheader("Estado de datos y advertencias")
+    st.write(f"{len(snapshot.tables)} tablas derivadas y {len(snapshot.alerts)} avisos del escenario seleccionado.")
+    if snapshot.alerts:
+        st.dataframe(alerts_frame(snapshot), width="stretch", hide_index=True, height=250)
+    else:
+        st.info("El motor de cálculo no reportó advertencias para este escenario.")
+    if st.button("Generar reporte PDF", type="primary", key="generate_integral_pdf"):
+        try:
+            info = ReportInfo(project, responsible, institution, observations)
+            pdf = build_report_pdf(selected, mode, info)
+            timestamp = datetime.now().astimezone().strftime("%Y%m%d_%H%M%S")
+            st.session_state.integral_report = {
+                "data": pdf,
+                "file_name": f"Industrial_App_Reporte_Integral_PYDI_{timestamp}.pdf",
+                "mode": mode,
+                "source_signature": source_signature,
+                "metadata": metadata,
+            }
+            st.success("Reporte PDF generado. Descárguelo con el botón siguiente.")
+        except Exception as exc:  # noqa: BLE001 - límite de la interfaz: mostrar el fallo de generación
+            st.error(f"No se pudo generar el reporte: {exc}")
+    saved = st.session_state.get("integral_report")
+    if saved:
+        if (saved["mode"], saved["source_signature"], saved["metadata"]) == (mode, source_signature, metadata):
+            st.download_button("Descargar reporte PDF", saved["data"], saved["file_name"], "application/pdf", key="download_integral_pdf")
+        else:
+            st.warning("Los datos o la identificación cambiaron desde la generación. Pulse «Generar reporte PDF» de nuevo antes de descargar.")
+
+
 def run() -> None:
     st.set_page_config(page_title="Industrial App V3 · PYDI SHA", page_icon="🏭", layout="wide")
     if "case" not in st.session_state:
@@ -584,5 +621,6 @@ def run() -> None:
     handlers = (
         _home, _production, _location, _costs, _elements_pq, _loads, _transport,
         _improvement, _quality, _warehouse, _sha_plan, _economics, _schedule_audit, _export, render_inventory,
+        _report_pdf,
     )
     handlers[GROUPS.index(group)]()

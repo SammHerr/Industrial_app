@@ -8,8 +8,10 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 import pytest
+from PIL import Image
 from pypdf import PdfReader
 
+from pydi import code_generator
 from pydi.code_generator import code128_png, normalize_code, qr_png
 from pydi.inventory_db import backup_database, connect
 from pydi.inventory_service import (
@@ -218,3 +220,54 @@ def test_collision_retry_and_append_only_movements(tmp_path, monkeypatch):
         connection.execute("DELETE FROM stock_movements WHERE id=1")
     with connect(db) as connection:
         assert connection.execute("SELECT COUNT(*) FROM stock_movements").fetchone()[0] == 2
+
+
+def test_all_v3_code_categories_render_without_inventory_side_effects(tmp_path, monkeypatch):
+    db = tmp_path / "labels.db"
+    custom = add_presentation("Bolsa 330 g", 330, "PYDI-330G", "40.00", path=db)
+    codes = [
+        register_products("PYDI-250", 1, "MAC-250", "Almacén", path=db)[0],
+        register_products("PYDI-500", 1, "MAC-500", "Almacén", path=db)[0],
+        register_products(custom["id"], 1, "MAC-330", "Almacén", path=db)[0],
+        register_raw("MP-AVENA", "MAC-MP", 1, "kg", "Almacén", "2026-11-06", path=db),
+        register_machine("MQ-TOS-01", "Planta", serial="MAC-MQ-001", path=db),
+    ]
+    with connect(db) as connection:
+        before = tuple(connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+                       for table in ("traceable_items", "stock_movements", "audit_events", "sales"))
+
+    original_barcode = code_generator.Code128
+    original_qr = code_generator.qrcode.make
+    barcode_values, qr_values = [], []
+
+    def capture_barcode(value, *, writer):
+        barcode_values.append(value)
+        return original_barcode(value, writer=writer)
+
+    def capture_qr(value, **kwargs):
+        qr_values.append(value)
+        return original_qr(value, **kwargs)
+
+    monkeypatch.setattr(code_generator, "Code128", capture_barcode)
+    monkeypatch.setattr(code_generator.qrcode, "make", capture_qr)
+    for code in codes:
+        for data in (code128_png(code), qr_png(code)):
+            with Image.open(BytesIO(data)) as image:
+                assert image.format == "PNG"
+                image.verify()
+    assert barcode_values == codes and qr_values == codes
+
+    pdf = labels_pdf(codes, path=db)
+    assert pdf.startswith(b"%PDF")
+    text = "\n".join(page.extract_text() for page in PdfReader(BytesIO(pdf)).pages)
+    assert all(code in text for code in codes)
+    with connect(db) as connection:
+        after = tuple(connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+                      for table in ("traceable_items", "stock_movements", "audit_events", "sales"))
+    assert after == before
+
+    sell([codes[0]], "MAC-REGRESSION", path=db)
+    assert get_record(codes[0], db)["status"] == "VENDIDO"
+    assert codes[0] not in [row["code"] for row in records(active_only=True, path=db)]
+    with pytest.raises(InventoryError, match="no disponible"):
+        sell([codes[0]], "MAC-REGRESSION-SECOND", path=db)

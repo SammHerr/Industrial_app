@@ -2,6 +2,10 @@
 
 Aplicación Streamlit con los **39 apartados V2** del proyecto PYDI/SHA, más el módulo V3 **Códigos e inventario**. V2 conserva sus cálculos, gráficas y exportaciones. V3 registra unidades físicas y lotes reales en SQLite, produce QR/Code 128 y PDF A4, consulta trazabilidad y registra ventas internas.
 
+Para instalación y ejecución en macOS, consulte [docs/MAC_SETUP.md](docs/MAC_SETUP.md) y use `./run_mac.sh`.
+
+El último grupo de navegación, **Reporte técnico integral PDF**, genera un informe A4 con los 39 apartados, índice paginado, resultados, tablas, figuras, advertencias y anexos. Puede usar la semilla PYDI o una copia del escenario editado; los campos personalizados vacíos permanecen pendientes. Consulte [docs/REPORTE_INTEGRAL_PDF.md](docs/REPORTE_INTEGRAL_PDF.md) para el procedimiento y las limitaciones.
+
 ## Inicio en Windows PowerShell
 
 Desde `C:\Users\herre\OneDrive\Documentos\10mo\denise`:
@@ -51,7 +55,8 @@ pydi/calculations/             Funciones puras y validaciones
 pydi/v2_results.py             Snapshot derivado y alertas
 pydi/v2_charts.py              Gráficas dinámicas Plotly
 pydi/v2_reports.py             XLSX integral
-pydi/v2_ui.py                  Interfaz de 14 grupos
+pydi/v2_ui.py                  Interfaz de 16 grupos, incluido el reporte PDF
+pydi/reporting/                Selección de escenario, figuras y maquetación PDF
 pydi/datos.py, calculos.py...  MVP conservado
 scripts/                       Inspección y extracción reproducible del Word
 tests/                         Pruebas V3, V2 y de regresión MVP
