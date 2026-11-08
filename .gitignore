@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .venv/
+.venv-win/
 .venv.windows-backup-*/
 venv/
 *.xlsx
@@ -15,3 +16,6 @@ Paquete_Codex_Industrial_App_V2_SHA/referencias_v2/
 *.pdf
 output/
 exports/
+Guia_Referencias_Visuales_PYDI_39_Apartados.md
+LEEME_Codex_Reporte_V4.txt
+Prompt_Codex_Redisenar_Reporte_PYDI_SHA_SLP_39.txt
