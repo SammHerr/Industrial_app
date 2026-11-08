@@ -93,9 +93,8 @@ def test_empty_custom_case_reports_missing_data_without_seed_values(monkeypatch)
 
 def test_long_table_splits_and_repeats_header(base_report):
     _, pages = base_report
-    # El catálogo de elementos ocupa varias páginas y conserva su encabezado.
-    locations = [index for index, text in enumerate(pages) if "ASO-MP-001" in text]
-    assert locations
-    assert any("codigo" in pages[index].lower() for index in locations)
-    assert any("ASO-MP-" in text for text in pages)
-    assert "Relación numerada de tablas" in "\n".join(pages)
+    # La auditoría 5S se presenta por bandas y conserva la clave numerada.
+    bands = [text for text in pages if "Tabla 18." in text and "Checklist 5S" in text and "columnas" in text]
+    assert len(bands) >= 2
+    assert all("numero" in text.lower() for text in bands)
+    assert "Glosario y bibliografía metodológica" in "\n".join(pages)

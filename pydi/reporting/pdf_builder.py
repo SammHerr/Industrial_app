@@ -35,12 +35,15 @@ from pydi.calculations.methods import method_assessment
 from pydi.calculations.storage_finance import dock_capacity
 from pydi.calculations.transport_quality import occupancy
 from pydi.reporting.charts import figures_for_section, render_figure_png
+from pydi.reporting.report_snapshot import ReportSnapshot
 from pydi.reporting.sections import SECTION_SPECS, SectionSpec
+from pydi.reporting.technical import PROFILES, required_data, tables_for_section
+from pydi.reporting.technical_figures import figures_for_section as technical_figures
 from pydi.reporting.validation import BASE_MODE, CUSTOM_MODE
 from pydi.v2_barcode import code128_preview_png
 from pydi.v2_model import Case
 from pydi.v2_reports import FORMULAS, PARAM_ORIGINS
-from pydi.v2_results import Snapshot, compute_case
+from pydi.v2_results import Snapshot
 
 INK = colors.HexColor("#17324D")
 BLUE = colors.HexColor("#176B87")
@@ -90,6 +93,7 @@ def _styles():
         "table_header": ParagraphStyle("TableHeader", parent=base["Normal"], fontName="IndustrialSans-Bold", fontSize=7, leading=9, textColor=colors.white),
         "table_cell": ParagraphStyle("TableCell", parent=base["Normal"], fontName=font, fontSize=6.8, leading=9.2, textColor=INK),
         "caption": ParagraphStyle("Caption", parent=base["Normal"], fontName=font, fontSize=7, leading=10, textColor=GRAY, alignment=TA_CENTER, spaceBefore=4, spaceAfter=10),
+        "table_caption": ParagraphStyle("TableCaption", parent=base["Normal"], fontName="IndustrialSans-Bold", fontSize=7.5, leading=10.5, textColor=INK, spaceBefore=8, spaceAfter=4, keepWithNext=True),
     }
     return styles
 
@@ -195,9 +199,10 @@ def _interactive_results(number: int, case: Case) -> dict[str, pd.DataFrame]:
 
 
 class _ReportDoc(BaseDocTemplate):
-    def __init__(self, stream: BytesIO):
+    def __init__(self, stream: BytesIO, modality: str):
         super().__init__(stream, pagesize=A4, leftMargin=17 * mm, rightMargin=17 * mm,
                          topMargin=21 * mm, bottomMargin=18 * mm, title="Reporte técnico integral PYDI")
+        self.modality = "BASE" if modality == BASE_MODE else "PERSONALIZADO"
         frame = Frame(self.leftMargin, self.bottomMargin, self.width, self.height, leftPadding=0,
                       rightPadding=0, topPadding=0, bottomPadding=0)
         self.addPageTemplates(PageTemplate(id="A4", frames=[frame], onPage=self._page))
@@ -209,7 +214,7 @@ class _ReportDoc(BaseDocTemplate):
         canvas.setFont("IndustrialSans", 7)
         canvas.setFillColor(GRAY)
         if doc.page > 1:
-            canvas.drawString(self.leftMargin, A4[1] - 13 * mm, "Industrial App V3 · Reporte técnico integral PYDI")
+            canvas.drawString(self.leftMargin, A4[1] - 13 * mm, f"Industrial App V4 · PYDI SHA / SLP · {self.modality}")
             canvas.drawRightString(A4[0] - self.rightMargin, 11 * mm, f"Página {doc.page}")
         canvas.restoreState()
 
@@ -221,9 +226,9 @@ class _ReportDoc(BaseDocTemplate):
 
 
 def _data_table(frame: pd.DataFrame, title: str, doc: _ReportDoc, styles: dict, number: int,
-                register: list[str]) -> list:
+                register: list[str], source: str = "Escenario y motor de Industrial App", note: str = "") -> list:
     if frame.empty:
-        return [_para(f"{title}: sin filas capturadas.", styles["warning"])]
+        return [_para(f"{title}: no calculable con los datos disponibles; capture las entradas indicadas.", styles["warning"])]
     columns = list(frame.columns)
     groups = [columns] if len(columns) <= 4 else [[columns[0], *columns[index:index + 3]]
                                                   for index in range(1, len(columns), 3)]
@@ -234,7 +239,7 @@ def _data_table(frame: pd.DataFrame, title: str, doc: _ReportDoc, styles: dict, 
         if len(groups) > 1:
             label += f" · columnas {index}/{len(groups)} (clave repetida)"
         register.append(label)
-        output.append(_para(label, styles["small"]))
+        output.append(_para(label, styles["table_caption"]))
         widths = [doc.width / len(group)] * len(group)
         header = [_para(col.replace("_", " "), styles["table_header"]) for col in group]
         rows = [[_para(value, styles["table_cell"]) for value in record]
@@ -250,7 +255,7 @@ def _data_table(frame: pd.DataFrame, title: str, doc: _ReportDoc, styles: dict, 
             ("TOPPADDING", (0, 0), (-1, -1), 4),
             ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
         ]))
-        output.extend((table, Spacer(1, 6)))
+        output.extend((table, _para(f"Fuente: {source}." + (f" {note}" if note else ""), styles["small"]), Spacer(1, 6)))
     return output
 
 
@@ -304,31 +309,47 @@ def _conclusions(snap: Snapshot, styles: dict) -> list:
     return [_para("Conclusiones", styles["h1"]), *(_para("• " + line, styles["body"]) for line in lines)]
 
 
+def _figure(image_bytes: bytes, title: str, source: str, doc: _ReportDoc, styles: dict,
+            number: int, register: list[str]) -> list:
+    with PILImage.open(BytesIO(image_bytes)) as bitmap:
+        width, height = bitmap.size
+    display_width = doc.width
+    display_height = min(display_width * height / width, 88 * mm)
+    if display_height < display_width * height / width:
+        display_width = display_height * width / height
+    local = sum(item.startswith(f"Figura {number}.") for item in register) + 1
+    label = f"Figura {number}.{local}. {title}"
+    register.append(label)
+    return [KeepTogether([Image(BytesIO(image_bytes), width=display_width, height=display_height),
+                          _para(f"{label}. Fuente: {source}.", styles["caption"])])]
+
+
 def build_report_pdf(case: Case, modality: str, info: ReportInfo | None = None) -> bytes:
     """Devuelve un PDF completo sin escribir en SQLite ni mutar el escenario recibido."""
     if modality not in (BASE_MODE, CUSTOM_MODE):
         raise ValueError("Modalidad de reporte desconocida.")
     _register_fonts()
     details = (info or ReportInfo()).cleaned()
-    scenario = case.copy()
-    snap = compute_case(scenario)
+    capture = ReportSnapshot.capture(case, modality)
+    scenario, snap = capture.materialize()
     styles = _styles()
     output = BytesIO()
-    doc = _ReportDoc(output)
+    doc = _ReportDoc(output, modality)
     story = []
     when = details.generated_at or datetime.now().astimezone()
     story.extend([
         Spacer(1, 57 * mm),
-        _para("INDUSTRIAL APP V3 · PYDI", styles["cover_kicker"]),
+        _para("INDUSTRIAL APP V4 · PYDI SHA / SLP", styles["cover_kicker"]),
         _para("Reporte técnico integral de Planeación y Diseño de Instalaciones", styles["cover_title"]),
         _para(f"Proyecto o producto: {details.project or 'Sin nombre proporcionado'}", styles["cover_meta"]),
         _para("Modalidad: Datos base del proyecto PYDI" if modality == BASE_MODE else "Modalidad: Datos personalizados", styles["cover_meta"]),
+        _para(f"Versión del caso: {capture.case_version} · Huella SHA-256: {capture.fingerprint[:16]}…", styles["cover_meta"]),
         _para(f"Generado: {when.strftime('%d/%m/%Y %H:%M %Z')}", styles["cover_meta"]),
     ])
     for label, value in (("Responsable", details.responsible), ("Institución", details.institution), ("Observaciones", details.observations)):
         if value:
             story.append(_para(f"{label}: {value}", styles["cover_meta"]))
-    story.extend((Spacer(1, 38 * mm), _para("Fuente del proyecto: Proyecto PYDI (1)(1).docx. Los datos [M] son complementarios o ilustrativos.", styles["small"]), PageBreak()))
+    story.extend((Spacer(1, 38 * mm), _para("Fuente del proyecto: Proyecto PYDI (1).docx. Los datos [M] son complementarios o ilustrativos.", styles["small"]), PageBreak()))
 
     story.append(_para("Índice de apartados", styles["h1"]))
     toc = TableOfContents()
@@ -344,6 +365,9 @@ def build_report_pdf(case: Case, modality: str, info: ReportInfo | None = None) 
         heading = _para(f"{spec.number}. {spec.title}", styles["h1"])
         heading.bookmarkName = f"section-{spec.number}"
         story.append(heading)
+        profile = PROFILES[spec.number]
+        story.append(_para(f"Objetivo: {profile.objective}", styles["body"]))
+        story.append(_para(f"Método: {profile.method} Marco: {profile.references}.", styles["small"]))
         story.append(_para(spec.interpretation, styles["body"]))
         formulas = _formula_rows(spec.number)
         if not formulas.empty:
@@ -355,19 +379,16 @@ def build_report_pdf(case: Case, modality: str, info: ReportInfo | None = None) 
                                    for key in spec.params], columns=["parámetro", "valor", "procedencia"])
             story.append(_para("Parámetros del escenario", styles["h2"]))
             story.extend(_data_table(params, "Parámetros", doc, styles, spec.number, table_register))
-        if spec.inputs:
-            story.append(_para("Datos de entrada", styles["h2"]))
-            for name in spec.inputs:
-                story.extend(_data_table(scenario.tables[name], name.replace("_", " ").capitalize(), doc, styles, spec.number, table_register))
+        technical_tables = tables_for_section(spec.number, scenario, snap)
+        if technical_tables:
+            story.append(_para("Artefactos técnicos del apartado", styles["h2"]))
+            for artifact in technical_tables:
+                story.extend(_data_table(artifact.frame, artifact.title, doc, styles, spec.number,
+                                         table_register, artifact.source, artifact.note))
         metric_frame = _flat_metrics(spec, snap)
         if not metric_frame.empty:
             story.append(_para("Indicadores calculados", styles["h2"]))
             story.extend(_data_table(metric_frame, "Indicadores", doc, styles, spec.number, table_register))
-        if spec.results:
-            story.append(_para("Resultados derivados", styles["h2"]))
-            for name in spec.results:
-                if name in snap.tables:
-                    story.extend(_data_table(snap.tables[name], name, doc, styles, spec.number, table_register))
         for name, frame in _interactive_results(spec.number, scenario).items():
             story.append(_para("Resultados derivados", styles["h2"]))
             story.extend(_data_table(frame, name, doc, styles, spec.number, table_register))
@@ -377,26 +398,17 @@ def build_report_pdf(case: Case, modality: str, info: ReportInfo | None = None) 
                 sample = identifiers.loc[identifiers["codigo"].notna()].iloc[0]
                 value = f"{sample['codigo']}|{sample['lote']}|{sample['ubicacion']}"
                 image_bytes = code128_preview_png(value)
-                with PILImage.open(BytesIO(image_bytes)) as barcode:
-                    width, height = barcode.size
-                display_width = min(doc.width, 110 * mm)
-                display_height = display_width * height / width
-                label = "Figura 25.1. Código 128 demostrativo del primer identificador [M]."
-                figure_register.append(label)
-                story.append(KeepTogether([Image(BytesIO(image_bytes), width=display_width, height=display_height),
-                                           _para(label, styles["caption"])]))
+                story.extend(_figure(image_bytes, "Código 128 demostrativo del primer identificador [M]",
+                                     "Escenario documental; no es inventario V3", doc, styles, spec.number, figure_register))
         for caption, figure in figures_for_section(spec.number, scenario, snap):
             image_bytes = render_figure_png(figure)
-            with PILImage.open(BytesIO(image_bytes)) as image:
-                width, height = image.size
-            display_width = doc.width
-            display_height = min(display_width * height / width, 84 * mm)
-            if display_height < display_width * height / width:
-                display_width = display_height * width / height
-            label = f"Figura {spec.number}.{sum(item.startswith(f'Figura {spec.number}.') for item in figure_register) + 1}. {caption}"
-            figure_register.append(label)
-            story.append(KeepTogether([Image(BytesIO(image_bytes), width=display_width, height=display_height),
-                                       _para(label + " · datos del escenario actual [C/M].", styles["caption"])]))
+            story.extend(_figure(image_bytes, caption, "Motor del escenario [C/M]", doc, styles,
+                                 spec.number, figure_register))
+        for caption, image_bytes, source in technical_figures(spec.number, scenario, snap):
+            story.extend(_figure(image_bytes, caption, source, doc, styles, spec.number, figure_register))
+        limitation = required_data(spec.number, scenario, snap)
+        if limitation:
+            story.append(_para(limitation, styles["warning"]))
         missing = _missing(spec, scenario, snap)
         alerts = _alerts(spec.number, snap)
         if missing or alerts:
@@ -406,23 +418,29 @@ def build_report_pdf(case: Case, modality: str, info: ReportInfo | None = None) 
             if len(missing) > 8:
                 story.append(_para(f"Otros {len(missing) - 8} campos incompletos constan en las tablas anteriores.", styles["warning"]))
             story.extend(_para(message, styles["warning"]) for message in alerts)
-        elif not spec.results and not spec.metrics:
-            story.append(_para("Estado: registro documental o captura; no hay cálculo autónomo para este apartado.", styles["small"]))
 
     story.append(CondPageBreak(200))
     story.extend(_conclusions(snap, styles))
     story.append(CondPageBreak(200))
     story.append(_para("Anexos", styles["h1"]))
-    story.append(_para("A. Relación de fórmulas y procedencia", styles["h2"]))
-    story.extend(_data_table(FORMULAS, "Inventario de fórmulas", doc, styles, 40, table_register))
+    story.append(_para("A. Fórmulas y procedencia", styles["h2"]))
+    story.append(_para("Las ecuaciones, unidades y referencias se presentan junto al apartado que las utiliza. Los valores de los anexos no sustituyen el motor de cálculo.", styles["body"]))
     story.append(_para("B. Incidencias de calidad de datos", styles["h2"]))
-    alerts = pd.DataFrame(snap.alerts, columns=["nivel", "apartado", "detalle"])
-    story.extend(_data_table(alerts, "Alertas del motor de cálculo", doc, styles, 40, table_register))
+    story.append(_para(f"El motor emitió {len(snap.alerts)} advertencias, reproducidas junto a los apartados afectados. Las celdas pendientes permanecen visibles en sus tablas.", styles["body"]))
     story.append(_para("C. Procedencia y supuestos", styles["h2"]))
-    story.append(_para("Fuente principal: Word canónico Proyecto PYDI (1)(1).docx. [D] declarado; [S] supuesto del documento; [C] calculado con el motor de Industrial App; [M] complemento metodológico o ejemplo ilustrativo; [U] editado por el usuario. Los resultados del Word que carecen de flujos verificables permanecen como referencia.", styles["body"]))
-    story.append(_para("D. Relación numerada de figuras", styles["h2"]))
-    story.extend(_para(item, styles["small"]) for item in figure_register)
-    story.append(_para("E. Relación numerada de tablas", styles["h2"]))
-    story.extend(_para(item, styles["small"]) for item in table_register)
+    story.append(_para("Fuente principal: Word canónico Proyecto PYDI (1).docx. [D] declarado; [S] supuesto del documento; [C] calculado con el motor de Industrial App; [M] complemento metodológico o ejemplo ilustrativo; [U] editado por el usuario. Los resultados del Word que carecen de flujos verificables permanecen como referencia.", styles["body"]))
+    story.append(_para("D. Glosario y bibliografía metodológica", styles["h2"]))
+    story.append(_para("SHA: Systematic Handling Analysis; SLP: Systematic Layout Planning; P-Q-R-S-T: producto, cantidad, ruta, servicios y tiempo; T.W.: trabajo de transporte; LCC: costo del ciclo de vida; VPN: valor presente neto; CPM: método de ruta crítica. Los grados A/E/I/O/U/X expresan cercanía desde absolutamente necesaria hasta indeseable; X solo procede de incompatibilidad documentada.", styles["body"]))
+    bibliography = (
+        "R1. Muther y Haganas, Systematic Handling Analysis (SHA).",
+        "R2. Muther y Hales, Systematic Layout Planning, 4.ª ed.",
+        "R3. Muther, Planificación y proyección de la empresa industrial.",
+        "R4. Heragu, Facilities Design, 4.ª ed.",
+        "R5. Tompkins et al., Facilities Planning, 4.ª ed.",
+        "R6. García-Díaz y Smith, Facilities Planning and Design.",
+        "R7. Niebel y Freivalds, Ingeniería industrial: métodos, estándares y diseño del trabajo, 12.ª ed.",
+        "R8. Sapag Chain y Sapag Chain, Preparación y evaluación de proyectos, 5.ª ed.",
+    )
+    story.extend(_para(item, styles["small"]) for item in bibliography)
     doc.multiBuild(story)
     return output.getvalue()

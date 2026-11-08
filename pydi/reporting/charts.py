@@ -23,10 +23,7 @@ from pydi.v2_charts import (
     equilibrium_chart,
     five_s_chart,
     gantt_chart,
-    ishikawa_chart,
-    layout_chart,
     pallet_chart,
-    pareto_chart,
     pq_chart,
     production_chart,
     simple_bars,
@@ -58,16 +55,8 @@ def figures_for_section(number: int, case: Case, snap: Snapshot) -> list[tuple[s
         figures.append(("Trabajo de transporte por ruta", tw_chart(t["TW base calculado"], t["TW propuesto calculado"])))
     elif number == 13 and {"TW base calculado", "TW propuesto calculado"} <= t.keys():
         figures.append(("Distancia-intensidad", di_chart(t["TW base calculado"], t["TW propuesto calculado"])))
-    elif number == 16 and "Pareto calculado" in t:
-        figures.append(("Pareto de tiempos", pareto_chart(t["Pareto calculado"])))
-    elif number == 17 and not case.tables["ishikawa"].empty:
-        figures.append(("Ishikawa 6M", ishikawa_chart(case.tables["ishikawa"])))
-    elif number == 18 and "cinco_s" in m:
+    elif number == 18 and "cinco_s" in m and case.tables["cinco_s"]["puntaje"].notna().all():
         figures.append(("Auditoría 5S", five_s_chart(case.tables["cinco_s"])))
-    elif number == 33:
-        areas = case.tables["areas"]
-        if not areas.empty and areas[["x_m", "y_m"]].notna().any().any():
-            figures.append(("Plano conceptual y relaciones de flujo", layout_chart(areas, t.get("TW propuesto calculado"))))
     elif number == 34:
         if "LCC calculado" in t:
             figures.append(("Costo nominal de ciclo de vida", simple_bars(t["LCC calculado"], "alternativa", "lcc_nominal_mxn", "Costo de ciclo de vida nominal [M/C]")))
@@ -81,8 +70,6 @@ def figures_for_section(number: int, case: Case, snap: Snapshot) -> list[tuple[s
     elif number == 38:
         if "CPM calculado" in t:
             figures.append(("Cronograma CPM", gantt_chart(t["CPM calculado"], computed=True)))
-        elif not case.tables["cronograma"].empty and case.tables["cronograma"]["inicio_referencia"].notna().any():
-            figures.append(("Ventanas ilustrativas del cronograma", gantt_chart(case.tables["cronograma"])))
     elif number == 39 and "Auditoría evaluada" in t:
         measured = t["Auditoría evaluada"].dropna(subset=["valor_evaluado"])
         if not measured.empty:
@@ -96,7 +83,7 @@ def _plain(value: object) -> str:
 
 def render_figure_png(figure: object) -> bytes:
     """Dibuja trazos, barras, formas y anotaciones Plotly sin Chrome/Kaleido."""
-    fig, ax = plt.subplots(figsize=(8.2, 4.3), dpi=160)
+    fig, ax = plt.subplots(figsize=(8.2, 4.3), dpi=300)
     fig.patch.set_facecolor("white")
     axes = {"y": ax, "y2": None}
     for trace in figure.data:
@@ -168,6 +155,6 @@ def render_figure_png(figure: object) -> bytes:
     fig.autofmt_xdate(rotation=25, ha="right")
     fig.tight_layout(pad=1.4)
     output = BytesIO()
-    fig.savefig(output, format="png", dpi=160, facecolor="white")
+    fig.savefig(output, format="png", dpi=300, facecolor="white")
     plt.close(fig)
     return output.getvalue()
